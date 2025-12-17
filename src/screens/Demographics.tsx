@@ -1,0 +1,337 @@
+"use client";
+
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+
+import { Button } from "../ui/components/Button";
+import { IconButton } from "../ui/components/IconButton";
+import { IconWithBackground } from "../ui/components/IconWithBackground";
+import { Switch } from "../ui/components/Switch";
+import { TextField } from "../ui/components/TextField";
+import {
+  FeatherArrowLeft,
+  FeatherUser,
+  FeatherGraduationCap,
+  FeatherBriefcase,
+  FeatherFileCheck,
+  FeatherAward,
+  FeatherPackage,
+} from "@subframe/core";
+import API, { URL_PATH } from "src/common/API";
+
+export default function Demographics() {
+  const navigate = useNavigate();
+  const scTextFieldClass =
+    "w-full [&>label]:text-[8px] [&>div]:rounded-full [&>div]:border [&>div]:border-neutral-200 [&>div]:h-8";
+
+  const scInputClass =
+    "w-full h-9 rounded-full px-3 text-[14px] bg-transparent focus:bg-transparent focus:outline-none focus:ring-0";
+
+  /* -------------------- VALIDATION RULES -------------------- */
+  const fullNameRegex = /^[A-Za-z\s]{2,}$/;
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const phoneNumberRegex = /^[0-9]{10,15}$/;
+  const textRegex = /^[A-Za-z\s]{2,}$/;
+
+  /* Form Validation */
+  const isFormValid = (): string | null => {
+    if (!fullNameRegex.test(form.fullName.trim())) {
+      return "Please enter a valid fullName (letters only, min 2 characters).";
+    }
+
+    if (!emailRegex.test(form.email.trim())) {
+      return "Please enter a valid email address.";
+    }
+
+    if (
+      form.phoneNumber.trim() &&
+      !phoneNumberRegex.test(form.phoneNumber.trim())
+    ) {
+      return "Please enter a valid phoneNumber number (10–15 digits).";
+    }
+
+    if (!textRegex.test(form.city.trim())) {
+      return "Please enter a valid city fullName.";
+    }
+
+    if (!textRegex.test(form.state.trim())) {
+      return "Please enter a valid state fullName.";
+    }
+
+    if (!textRegex.test(form.country.trim())) {
+      return "Please enter a valid country fullName.";
+    }
+
+    return null;
+  };
+
+  /* -------------------- STATE -------------------- */
+  const [phoneVisibleToRecruiters, setShowPhone] = useState(false);
+
+  const [form, setForm] = useState({
+    fullName: "",
+    email: "",
+    phoneNumber: "",
+    city: "",
+    state: "",
+    country: "",
+  });
+
+  /* -------------------- HANDLERS -------------------- */
+  const handleChange = (key: keyof typeof form, value: string) => {
+    setForm((prev) => ({ ...prev, [key]: value }));
+  };
+
+  /* -------------------- EXPERIENCE INDEX -------------------- */
+  const [experienceIndex, setExperienceIndex] = useState<number>(0);
+
+  /* -------------------- CONTINUE -------------------- */
+
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+ const handleContinue = async () => {
+  const error = isFormValid();
+  if (error) {
+    alert(error);
+    return;
+  }
+
+  const userId = localStorage.getItem("userId");
+
+  if (!userId) {
+    alert("Session expired. Please login again.");
+    navigate("/login");
+    return;
+  }
+
+  const payload = {
+    userId, // ✅ valid ObjectId string
+    ...form,
+    phoneVisibleToRecruiters,
+  };
+
+  try {
+    setIsSubmitting(true);
+
+    const response = await API(
+      "POST",
+      URL_PATH.demographics,
+      payload
+    );
+
+    console.log("Demographics submitted:", response);
+    navigate("/education");
+  } catch (err: any) {
+    alert(err.message || "Failed to submit demographics. Please try again.");
+  } finally {
+    setIsSubmitting(false);
+  }
+};
+
+
+  return (
+    <div className="min-h-screen flex justify-center bg-gradient-to-br from-purple-50 via-white to-neutral-50 px-6 py-24">
+      <div className="w-full max-w-[800px] flex gap-8">
+        {/* LEFT CARD */}
+        <main className="w-full max-w-[480px] bg-white rounded-3xl border border-solid px-8 py-6 shadow-[0_10px_30px_rgba(40,0,60,0.06)]">
+          <div className="flex items-center gap-4">
+            <IconButton
+              size="small"
+              icon={<FeatherArrowLeft />}
+              onClick={() => navigate(-1)}
+            />
+
+            <div className="flex-1 max-w-[420px]">
+              <div className="flex items-center gap-3">
+                <div className="flex-1 h-[5px] rounded-full bg-violet-700" />
+                {[...Array(7)].map((_, i) => (
+                  <div
+                    key={i}
+                    className="flex-1 h-[5px] rounded-full bg-neutral-200"
+                  />
+                ))}
+              </div>
+            </div>
+          </div>
+
+          <div className="mt-6">
+            <h2 className="text-[20px] font-semibold text-neutral-900">
+              Let's Calculate Your Experience Index
+            </h2>
+            <p className="text-xs text-neutral-500">
+              This information helps us create rankings and connect you with
+              relevant recruiters
+            </p>
+          </div>
+
+          {/* FORM */}
+          <div className="mt-6 flex flex-col gap-4">
+            <TextField label="Name *" className={scTextFieldClass}>
+              <TextField.Input
+                value={form.fullName}
+                onChange={(e) => handleChange("fullName", e.target.value)}
+                placeholder="John Smith"
+                className={scInputClass}
+              />
+            </TextField>
+
+            <TextField
+              label="Email *"
+              helpText="Used for account access and recruiter outreach"
+              className={scTextFieldClass}
+            >
+              <TextField.Input
+                value={form.email}
+                onChange={(e) => handleChange("email", e.target.value)}
+                placeholder="you@example.com"
+                className={scInputClass}
+              />
+            </TextField>
+
+            <TextField
+              label="Phone Number"
+              helpText="Optional for recruiter contact"
+              className={scTextFieldClass}
+            >
+              <TextField.Input
+                value={form.phoneNumber}
+                onChange={(e) => handleChange("phoneNumber", e.target.value)}
+                placeholder="+1 (555) 123-4567"
+                className={scInputClass}
+              />
+            </TextField>
+
+            <div className="flex items-center gap-3">
+              <Switch
+                checked={phoneVisibleToRecruiters}
+                onCheckedChange={(c) => setShowPhone(c)}
+                tabIndex={0}
+                role="switch"
+                aria-checked={phoneVisibleToRecruiters}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    setShowPhone((prev) => !prev);
+                  }
+                }}
+                className="
+    h-5 w-9
+    data-[state=checked]:bg-violet-700
+    data-[state=unchecked]:bg-neutral-300
+    [&>span]:h-4 [&>span]:w-3
+    [&>span]:data-[state=checked]:translate-x-2
+    [&>span]:data-[state=unchecked]:translate-x-0
+  "
+              />
+
+              <span className="text-sm text-neutral-700">
+                Make phoneNumber number visible to recruiters
+              </span>
+            </div>
+
+            <div className="flex gap-4">
+              <TextField
+                label="City *"
+                className="flex-1 [&>div]:h-8 [&>div]:rounded-full [&>div]:border [&>div]:border-neutral-300 [&>div]:focus-within:border-black-900"
+              >
+                <TextField.Input
+                  value={form.city}
+                  onChange={(e) => handleChange("city", e.target.value)}
+                  placeholder="San Francisco"
+                  className={scInputClass}
+                />
+              </TextField>
+
+              <TextField
+                label="State *"
+                className="flex-1 [&>div]:h-8 [&>div]:rounded-full [&>div]:border [&>div]:border-neutral-300 [&>div]:focus-within:border-black-900"
+              >
+                <TextField.Input
+                  value={form.state}
+                  onChange={(e) => handleChange("state", e.target.value)}
+                  placeholder="California"
+                  className={scInputClass}
+                />
+              </TextField>
+            </div>
+
+            <TextField
+              label="Country *"
+              className="w-full [&>div]:h-8 [&>div]:rounded-full [&>div]:border [&>div]:border-neutral-300 [&>div]:focus-within:border-black-900"
+            >
+              <TextField.Input
+                value={form.country}
+                onChange={(e) => handleChange("country", e.target.value)}
+                placeholder="United States"
+                className={scInputClass}
+              />
+            </TextField>
+          </div>
+
+          <div className="w-full h-px bg-neutral-200 my-5" />
+
+          <Button
+            onClick={handleContinue}
+            disabled={isSubmitting}
+            className="w-full h-9 rounded-full bg-violet-700 text-white shadow-[0_6px_18px_rgba(99,52,237,0.18)]"
+          >
+            {isSubmitting ? "Submitting..." : "Continue"}
+          </Button>
+        </main>
+
+        {/* RIGHT PANEL */}
+        <aside className="w-72 shrink-0">
+          <div className="sticky top-6 bg-white rounded-[20px] px-6 py-6 shadow-[0_10px_30px_rgba(40,0,60,0.04)] border border-neutral-200">
+            <h3 className="text-base font-semibold text-neutral-900">
+              Your Experience Index
+            </h3>
+
+            <div className="flex justify-center py-6">
+              <span className="text-[48px] font-medium text-neutral-300">
+                {experienceIndex}
+              </span>
+            </div>
+
+            <div className="h-px bg-neutral-100" />
+
+            <div className="mt-4">
+              <div className="text-sm font-semibold text-neutral-800 mb-3">
+                Progress Steps
+              </div>
+
+              <button
+                type="button"
+                className="w-full flex items-center gap-3 rounded-2xl border border-violet-200 bg-violet-50 px-4 py-2 mb-3 hover:shadow-sm"
+              >
+                <div className="flex items-center justify-center h-6 w-6 rounded-2xl bg-white shadow-sm">
+                  <IconWithBackground size="small" icon={<FeatherUser />} />
+                </div>
+                <span className="text-sm text-neutral-900">Demographics</span>
+              </button>
+
+              {[
+                ["Education", <FeatherGraduationCap />],
+                ["Experience", <FeatherBriefcase />],
+                ["Certifications", <FeatherFileCheck />],
+                ["Awards", <FeatherAward />],
+                ["Projects", <FeatherPackage />],
+              ].map(([label, icon], i) => (
+                <div
+                  key={i}
+                  className="flex items-center gap-3 rounded-2xl border border-neutral-200 px-4 py-2 mb-3"
+                >
+                  <IconWithBackground
+                    size="small"
+                    variant="neutral"
+                    icon={icon as any}
+                  />
+                  <span className="text-sm text-neutral-500">{label}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </aside>
+      </div>
+    </div>
+  );
+}

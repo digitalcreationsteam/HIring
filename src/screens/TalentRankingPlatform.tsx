@@ -1,0 +1,716 @@
+"use client";
+
+import React from "react";
+import { Badge } from "../ui/components/Badge";
+import { Button } from "../ui/components/Button";
+import { IconButton } from "../ui/components/IconButton";
+import { IconWithBackground } from "../ui/components/IconWithBackground";
+import { Table } from "../ui/components/Table";
+import { FeatherAward } from "@subframe/core";
+import { FeatherBookOpen } from "@subframe/core";
+import { FeatherBriefcase } from "@subframe/core";
+import { FeatherCheckCircle } from "@subframe/core";
+import { FeatherCheckSquare } from "@subframe/core";
+import { FeatherCode } from "@subframe/core";
+import { FeatherCrosshair } from "@subframe/core";
+import { FeatherGlobe } from "@subframe/core";
+import { FeatherInstagram } from "@subframe/core";
+import { FeatherLayers } from "@subframe/core";
+import { FeatherLinkedin } from "@subframe/core";
+import { FeatherMap } from "@subframe/core";
+import { FeatherMapPin } from "@subframe/core";
+import { FeatherMedal } from "@subframe/core";
+import { FeatherScale } from "@subframe/core";
+import { FeatherSliders } from "@subframe/core";
+import { FeatherTarget } from "@subframe/core";
+import { FeatherTrophy } from "@subframe/core";
+import { FeatherTwitter } from "@subframe/core";
+import { FeatherUsers } from "@subframe/core";
+
+function TalentRankingPlatform() {
+  return (
+    <div className="container max-w-none flex h-full w-full flex-col items-center bg-neutral-50 shadow-lg overflow-auto">
+      <div className="flex w-full flex-col items-center px-6 py-32">
+        <div className="flex w-full max-w-[768px] flex-col items-start gap-8">
+          <div className="flex flex-col items-start gap-6">
+            <Badge variant="neutral">Standardized Talent Infrastructure</Badge>
+            <span className="font-['Inter'] text-[56px] font-[600] leading-[60px] text-default-font -tracking-[0.04em]">
+              Welcome to UniTalent: A New Data-Driven Approach To Early-Career
+              Hiring
+            </span>
+            <div className="flex flex-col items-start gap-6">
+              <div className="flex items-start gap-4 rounded-lg border border-solid border-warning-200 bg-brand-100 px-6 py-5 shadow-lg">
+                <div className="flex grow shrink-0 basis-0 flex-col items-start gap-3">
+                  <span className="font-['Inter'] text-[16px] font-[600] leading-[24px] text-default-font -tracking-[0.01em]">
+                    The Traditional Résumé Paradox
+                  </span>
+                  <span className="whitespace-pre-wrap font-['Inter'] text-[14px] font-[400] leading-[20px] text-default-font -tracking-[0.01em]">
+                    {
+                      "You’ve done everything a committed student is supposed to do.\nYou’ve excelled academically, maintained a strong GPA, taken on competitions, founded clubs, volunteered, interned, built real projects, and prepared seriously for interviews. You’ve put in years of consistent work — the kind of work that should naturally open doors.\n\nYet in today’s hiring system, that effort doesn’t always speak for itself.\n\nAll too often, candidates who master résumé buzzwords, optimise templates, or rely on the right introductions slip ahead — not because they are more capable, but because they’ve learned how to package themselves better. And that’s frustrating. Not because you lack skill, but because you lack visibility. You want your work, your progress, and your dedication to be seen, not overlooked.\n\nWe realised this wasn’t an isolated problem — it’s a structural one. Across universities and across industries, talented, hardworking students were losing out to those who were simply better at signalling expertise rather than demonstrating it.\n\nSo we built UniTalent to fix this.\n\nInstead of rewarding résumé tricks, we quantify the work you’ve actually done — your projects, your experience, your consistency, your growth. Every hour you’ve invested finally counts for something measurable. And once quantified, your profile is benchmarked against peers in your university, your city, and nationwide. Recruiters can immediately identify real capability with data, not guesswork.\n\nNo shortcuts.\nNo keyword-hunting.\nNo inflated résumés.\n\nJust genuine, deserving, hardworking talent rising to the top — exactly where it should be."
+                    }
+                  </span>
+                </div>
+              </div>
+              <span className="font-['Inter'] text-[18px] font-[400] leading-[28px] text-subtext-color -tracking-[0.01em]">
+                UniTalent introduces a standardized ranking framework, through
+                test assesments, designed to address structural inconsistencies
+                in résumé-based evaluation. By shifting from narrative
+                description to measured indicators of capability, the platform
+                provides recruiters with transparent, data-backed methods for
+                identifying qualified candidates while improving visibility for
+                early-career talent.
+              </span>
+            </div>
+          </div>
+          <div className="flex h-px w-full flex-none flex-col items-center gap-2 bg-neutral-border" />
+          <div className="flex flex-col items-start gap-4">
+            <span className="font-['Inter'] text-[14px] font-[500] leading-[20px] text-default-font -tracking-[0.01em] uppercase">
+              Core Principles
+            </span>
+            <div className="flex flex-col items-start gap-3">
+              <div className="flex items-start gap-3">
+                <FeatherCheckSquare className="text-body font-body text-neutral-700" />
+                <span className="font-['Inter'] text-[16px] font-[400] leading-[24px] text-default-font -tracking-[0.01em]">
+                  Eliminates subjectivity and keyword optimization in candidate
+                  screening
+                </span>
+              </div>
+              <div className="flex items-start gap-3">
+                <FeatherCheckSquare className="text-body font-body text-neutral-700" />
+                <span className="font-['Inter'] text-[16px] font-[400] leading-[24px] text-default-font -tracking-[0.01em]">
+                  Provides verifiable, standardized capability metrics
+                </span>
+              </div>
+              <div className="flex items-start gap-3">
+                <FeatherCheckSquare className="text-body font-body text-neutral-700" />
+                <span className="font-['Inter'] text-[16px] font-[400] leading-[24px] text-default-font -tracking-[0.01em]">
+                  Supports signal-driven hiring with reduced ambiguity
+                </span>
+              </div>
+              <div className="flex items-start gap-3">
+                <FeatherCheckSquare className="text-body font-body text-neutral-700" />
+                <span className="font-['Inter'] text-[16px] font-[400] leading-[24px] text-default-font -tracking-[0.01em]">
+                  Enables fair, merit-based candidate discovery at scale
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="flex w-full flex-col items-center bg-neutral-50 px-6 py-24">
+        <div className="flex w-full max-w-[1280px] flex-col items-start gap-12">
+          <div className="flex flex-col items-start gap-4">
+            <span className="font-['Inter'] text-[40px] font-[600] leading-[48px] text-default-font -tracking-[0.04em]">
+              How UniTalent Works
+            </span>
+            <span className="font-['Inter'] text-[16px] font-[400] leading-[24px] text-subtext-color -tracking-[0.01em]">
+              A structured system that converts candidate data into clear,
+              standardized measures of capability
+            </span>
+          </div>
+          <div className="flex w-full items-start gap-6">
+            <div className="flex grow shrink-0 basis-0 flex-col items-start gap-4 rounded-lg border border-solid border-neutral-border bg-white px-8 py-8 shadow-lg">
+              <div className="flex h-12 w-12 flex-none items-center justify-center rounded-lg bg-brand-100">
+                <span className="text-heading-2 font-heading-2 text-brand-700">
+                  1
+                </span>
+              </div>
+              <div className="flex flex-col items-start gap-2">
+                <span className="font-['Inter'] text-[18px] font-[600] leading-[24px] text-default-font -tracking-[0.01em]">
+                  Profile Creation
+                </span>
+                <span className="font-['Inter'] text-[14px] font-[400] leading-[20px] text-subtext-color -tracking-[0.01em]">
+                  Candidates submit academic background, work experience,
+                  certifications, and project involvement through structured
+                  data fields.
+                </span>
+              </div>
+            </div>
+            <div className="flex grow shrink-0 basis-0 flex-col items-start gap-4 rounded-lg border border-solid border-neutral-border bg-white px-8 py-8 shadow-lg">
+              <div className="flex h-12 w-12 flex-none items-center justify-center rounded-lg bg-brand-100">
+                <span className="text-heading-2 font-heading-2 text-brand-700">
+                  2
+                </span>
+              </div>
+              <div className="flex flex-col items-start gap-2">
+                <span className="font-['Inter'] text-[18px] font-[600] leading-[24px] text-default-font -tracking-[0.01em]">
+                  Score Generation
+                </span>
+                <span className="font-['Inter'] text-[14px] font-[400] leading-[20px] text-subtext-color -tracking-[0.01em]">
+                  The system processes inputs to generate your Experience Index.
+                </span>
+              </div>
+            </div>
+            <div className="flex grow shrink-0 basis-0 flex-col items-start gap-4 rounded-lg border border-solid border-neutral-border bg-white px-8 py-8 shadow-lg">
+              <div className="flex h-12 w-12 flex-none items-center justify-center rounded-lg bg-brand-100">
+                <span className="text-heading-2 font-heading-2 text-brand-700">
+                  2
+                </span>
+              </div>
+              <div className="flex flex-col items-start gap-2">
+                <span className="font-['Inter'] text-[18px] font-[600] leading-[24px] text-default-font -tracking-[0.01em]">
+                  Skill Assessment
+                </span>
+                <span className="font-['Inter'] text-[14px] font-[400] leading-[20px] text-subtext-color -tracking-[0.01em]">
+                  A role-specific, assessment measures current job-ready
+                  capability and provides you with the Skill Index
+                </span>
+              </div>
+            </div>
+            <div className="flex grow shrink-0 basis-0 flex-col items-start gap-4 rounded-lg border border-solid border-neutral-border bg-white px-8 py-8 shadow-lg">
+              <div className="flex h-12 w-12 flex-none items-center justify-center rounded-lg bg-brand-100">
+                <span className="text-heading-2 font-heading-2 text-brand-700">
+                  4
+                </span>
+              </div>
+              <div className="flex flex-col items-start gap-2">
+                <span className="font-['Inter'] text-[18px] font-[600] leading-[24px] text-default-font -tracking-[0.01em]">
+                  Recruiter Access
+                </span>
+                <span className="font-['Inter'] text-[14px] font-[400] leading-[20px] text-subtext-color -tracking-[0.01em]">
+                  Your aggregated indexes feed into UniTalent’s ranking system,
+                  enabling recruiters to efficiently discover high-performing
+                  candidates
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="flex w-full flex-col items-center px-6 py-32">
+        <div className="flex w-full max-w-[1280px] flex-col items-start gap-16">
+          <div className="flex flex-col items-start gap-4">
+            <span className="font-['Inter'] text-[40px] font-[600] leading-[48px] text-default-font text-center -tracking-[0.04em]">
+              The Three-Score Architecture
+            </span>
+            <span className="w-full max-w-[768px] font-['Inter'] text-[16px] font-[400] leading-[24px] text-subtext-color -tracking-[0.01em]">
+              UniTalent evaluates candidates using two standardized dimensions —
+              a Skill Index (from assessments) and an Experience Index (from
+              education, work, projects and awards) — which are combined into a
+              single Hireability Index
+            </span>
+          </div>
+          <div className="flex w-full flex-col items-start gap-8">
+            <div className="flex w-full items-start gap-8">
+              <div className="flex w-16 flex-none flex-col items-center pt-2">
+                <IconWithBackground
+                  size="x-large"
+                  icon={<FeatherBriefcase />}
+                  square={true}
+                />
+              </div>
+              <div className="flex grow shrink-0 basis-0 flex-col items-start gap-6 rounded-lg border border-solid border-neutral-border bg-white px-10 py-10 shadow-lg">
+                <div className="flex flex-col items-start gap-3">
+                  <span className="font-['Inter'] text-[28px] font-[600] leading-[36px] text-default-font -tracking-[0.02em]">
+                    Experience Index
+                  </span>
+                  <Badge>
+                    Quantifying Your Effort and the Visibility It Deserves
+                  </Badge>
+                </div>
+                <div className="flex h-px w-full flex-none flex-col items-center gap-2 bg-neutral-border" />
+                <div className="flex flex-col items-start gap-4">
+                  <span className="whitespace-pre-wrap font-['Inter'] text-[16px] font-[400] leading-[24px] text-default-font -tracking-[0.01em]">
+                    {
+                      "Remember all those projects you built, the hackathons you joined, the awards you earned — and then had to cram just two lines of them into a “1-page résumé” because that’s what the industry demands?\n\nYeah… we decided that makes zero sense.\n\nOn our platform, every bit of effort counts. Every internship, every certification, every late-night project — even the ones you couldn’t fit on the résumé — finally gets quantified. Because all that hard work should matter."
+                    }
+                  </span>
+                  <div className="flex h-px w-full flex-none flex-col items-center gap-2 bg-neutral-border" />
+                  <div className="flex flex-col items-start gap-3">
+                    <span className="font-['Inter'] text-[14px] font-[500] leading-[20px] text-default-font -tracking-[0.01em]">
+                      What Gets Measured
+                    </span>
+                    <div className="flex flex-col items-start gap-3">
+                      <div className="flex items-start gap-3">
+                        <FeatherBookOpen className="text-body font-body text-neutral-700" />
+                        <span className="font-['Inter'] text-[14px] font-[400] leading-[20px] text-default-font -tracking-[0.01em]">
+                          Education &amp; coursework
+                        </span>
+                      </div>
+                      <div className="flex items-start gap-3">
+                        <FeatherBriefcase className="text-body font-body text-neutral-700" />
+                        <span className="font-['Inter'] text-[14px] font-[400] leading-[20px] text-default-font -tracking-[0.01em]">
+                          Internships &amp; work experience
+                        </span>
+                      </div>
+                      <div className="flex items-start gap-3">
+                        <FeatherCode className="text-body font-body text-neutral-700" />
+                        <span className="font-['Inter'] text-[14px] font-[400] leading-[20px] text-default-font -tracking-[0.01em]">
+                          Projects &amp; technical builds
+                        </span>
+                      </div>
+                      <div className="flex items-start gap-3">
+                        <FeatherAward className="text-body font-body text-neutral-700" />
+                        <span className="font-['Inter'] text-[14px] font-[400] leading-[20px] text-default-font -tracking-[0.01em]">
+                          Certifications &amp; training
+                        </span>
+                      </div>
+                      <div className="flex items-start gap-3">
+                        <FeatherTrophy className="text-body font-body text-neutral-700" />
+                        <span className="font-['Inter'] text-[14px] font-[400] leading-[20px] text-default-font -tracking-[0.01em]">
+                          Awards &amp; competitions
+                        </span>
+                      </div>
+                      <div className="flex items-start gap-3">
+                        <FeatherUsers className="text-body font-body text-neutral-700" />
+                        <span className="font-['Inter'] text-[14px] font-[400] leading-[20px] text-default-font -tracking-[0.01em]">
+                          Leadership &amp; campus involvement
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="flex h-px w-full flex-none flex-col items-center gap-2 bg-neutral-border" />
+              </div>
+            </div>
+            <div className="flex w-full items-start gap-8">
+              <div className="flex w-16 flex-none flex-col items-center pt-2">
+                <IconWithBackground
+                  variant="brand"
+                  size="x-large"
+                  icon={<FeatherCrosshair />}
+                  square={true}
+                />
+              </div>
+              <div className="flex grow shrink-0 basis-0 flex-col items-start gap-6 rounded-lg border border-solid border-neutral-border bg-white px-10 py-10 shadow-lg">
+                <div className="flex flex-col items-start gap-3">
+                  <span className="font-['Inter'] text-[28px] font-[600] leading-[36px] text-default-font -tracking-[0.02em]">
+                    Skill Index
+                  </span>
+                  <Badge variant="brand">Job-Ready Capability Assessment</Badge>
+                </div>
+                <div className="flex h-px w-full flex-none flex-col items-center gap-2 bg-neutral-border" />
+                <div className="flex flex-col items-start gap-4">
+                  <span className="whitespace-pre-wrap font-['Inter'] text-[16px] font-[400] leading-[24px] text-default-font -tracking-[0.01em]">
+                    {
+                      "Ever seen résumé lines like “spearheaded cross-functional initiatives to drive technical excellence”?\nImpressive wording — but none of it proves you can actually code, design, analyse, or lead. \n\nWe believed there had to be a better way.\nSo we created the Skill Index — a concise, role-specific assessment that reveals how strong you really are at the skill required for your job. No buzzwords. No padding. Just a clean, verifiable measure of actual ability.\n\nSkill first. Storytelling second."
+                    }
+                  </span>
+                  <div className="flex h-px w-full flex-none flex-col items-center gap-2 bg-neutral-border" />
+                  <div className="flex flex-col items-start gap-3">
+                    <span className="font-['Inter'] text-[14px] font-[500] leading-[20px] text-default-font -tracking-[0.01em]">
+                      How We Measure It
+                    </span>
+                    <div className="flex flex-col items-start gap-3">
+                      <div className="flex items-start gap-3">
+                        <FeatherTarget className="text-body font-body text-neutral-700" />
+                        <span className="font-['Inter'] text-[14px] font-[400] leading-[20px] text-default-font -tracking-[0.01em]">
+                          A short, targeted assessment built around the core
+                          tasks of desired role
+                        </span>
+                      </div>
+                      <div className="flex items-start gap-3">
+                        <FeatherCheckCircle className="text-body font-body text-neutral-700" />
+                        <span className="font-['Inter'] text-[14px] font-[400] leading-[20px] text-default-font -tracking-[0.01em]">
+                          Evaluation based on correctness, clarity of thinking,
+                          and applied skill
+                        </span>
+                      </div>
+                      <div className="flex items-start gap-3">
+                        <FeatherScale className="text-body font-body text-neutral-700" />
+                        <span className="font-['Inter'] text-[14px] font-[400] leading-[20px] text-default-font -tracking-[0.01em]">
+                          Standardized scoring to ensure fairness across varied
+                          educational backgrounds
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="flex h-px w-full flex-none flex-col items-center gap-2 bg-neutral-border" />
+              </div>
+            </div>
+            <div className="flex w-full items-start gap-8">
+              <div className="flex w-16 flex-none flex-col items-center pt-2">
+                <IconWithBackground
+                  variant="brand"
+                  size="x-large"
+                  icon={<FeatherMedal />}
+                  square={true}
+                />
+              </div>
+              <div className="flex grow shrink-0 basis-0 flex-col items-start gap-6 rounded-lg border border-solid border-neutral-border bg-white px-10 py-10 shadow-lg">
+                <div className="flex flex-col items-start gap-3">
+                  <span className="font-['Inter'] text-[28px] font-[600] leading-[36px] text-default-font -tracking-[0.02em]">
+                    Hireability Index
+                  </span>
+                  <Badge variant="brand">Unified Talent Benchmark</Badge>
+                </div>
+                <div className="flex h-px w-full flex-none flex-col items-center gap-2 bg-neutral-border" />
+                <div className="flex flex-col items-start gap-4">
+                  <span className="font-['Inter'] text-[16px] font-[400] leading-[24px] text-default-font -tracking-[0.01em]">
+                    The Hireability Index is your central score — the number
+                    that pulls together your skills and your hard-earned
+                    experience to show the world exactly how job-ready you are.
+                    It’s what determines your rank in your university, city,
+                    state, and across the entire country — helping recruiters
+                    instantly spot the best talent at the most granular level.
+                    No more getting lost in a stack of résumés. Your ability
+                    finally has a spotlight — with a score that proves you
+                    belong at the top
+                  </span>
+                  <div className="flex h-px w-full flex-none flex-col items-center gap-2 bg-neutral-border" />
+                  <div className="flex flex-col items-start gap-3">
+                    <span className="font-['Inter'] text-[14px] font-[500] leading-[20px] text-default-font -tracking-[0.01em]">
+                      How It’s Measured
+                    </span>
+                    <div className="flex flex-col items-start gap-3">
+                      <div className="flex items-start gap-3">
+                        <FeatherLayers className="text-body font-body text-neutral-700" />
+                        <span className="font-['Inter'] text-[14px] font-[400] leading-[20px] text-default-font -tracking-[0.01em]">
+                          A weighted blend of the Skill Index and Experience
+                          Index
+                        </span>
+                      </div>
+                      <div className="flex items-start gap-3">
+                        <FeatherSliders className="text-body font-body text-neutral-700" />
+                        <span className="font-['Inter'] text-[14px] font-[400] leading-[20px] text-default-font -tracking-[0.01em]">
+                          Normalization to remove biases from background,
+                          institution
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="flex h-px w-full flex-none flex-col items-center gap-2 bg-neutral-border" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="flex w-full flex-col items-center bg-neutral-50 px-6 py-24 shadow-lg">
+        <div className="flex w-full max-w-[1280px] flex-col items-start gap-12">
+          <div className="flex flex-col items-start gap-4">
+            <span className="font-['Inter'] text-[14px] font-[500] leading-[20px] text-brand-700 -tracking-[0.01em] uppercase">
+              Global Benchmarking Layer
+            </span>
+            <span className="font-['Inter'] text-[40px] font-[600] leading-[48px] text-default-font -tracking-[0.04em]">
+              Ranking Methodology
+            </span>
+            <span className="w-full max-w-[768px] font-['Inter'] text-[16px] font-[400] leading-[24px] text-subtext-color -tracking-[0.01em]">
+              Candidates are ranked across multi-layer cohorts within their
+              chosen job role. Rankings update automatically when scores change,
+              providing recruiters with granular visibility and supporting
+              targeted talent discovery. This structure transitions the score
+              framework into actionable hiring outcomes.
+            </span>
+          </div>
+          <div className="flex w-full flex-col items-start gap-6 rounded-lg border border-solid border-neutral-border bg-white px-8 py-8">
+            <div className="flex flex-col items-start gap-2">
+              <span className="font-['Inter'] text-[20px] font-[600] leading-[28px] text-default-font -tracking-[0.01em]">
+                Ranking Structure
+              </span>
+              <span className="font-['Inter'] text-[14px] font-[400] leading-[20px] text-subtext-color -tracking-[0.01em]">
+                Candidates are positioned across four hierarchical levels for
+                each job role
+              </span>
+            </div>
+            <div className="flex w-full flex-col items-start overflow-auto">
+              <Table
+                header={
+                  <Table.HeaderRow>
+                    <Table.HeaderCell>Ranking Level</Table.HeaderCell>
+                    <Table.HeaderCell>Cohort Scope</Table.HeaderCell>
+                    <Table.HeaderCell>Update Frequency</Table.HeaderCell>
+                    <Table.HeaderCell>Recruiter Use Case</Table.HeaderCell>
+                  </Table.HeaderRow>
+                }
+              >
+                <Table.Row>
+                  <Table.Cell>
+                    <div className="flex items-center gap-2">
+                      <FeatherGlobe className="text-body font-body text-brand-600" />
+                      <span className="whitespace-nowrap text-body-bold font-body-bold text-default-font">
+                        Global
+                      </span>
+                    </div>
+                  </Table.Cell>
+                  <Table.Cell>
+                    <span className="whitespace-nowrap text-body font-body text-neutral-700">
+                      All candidates within job role
+                    </span>
+                  </Table.Cell>
+                  <Table.Cell>
+                    <span className="whitespace-nowrap text-body font-body text-neutral-700">
+                      Real-time
+                    </span>
+                  </Table.Cell>
+                  <Table.Cell>
+                    <span className="whitespace-nowrap text-body font-body text-neutral-700">
+                      Top-tier talent identification
+                    </span>
+                  </Table.Cell>
+                </Table.Row>
+                <Table.Row>
+                  <Table.Cell>
+                    <div className="flex items-center gap-2">
+                      <FeatherMap className="text-body font-body text-brand-600" />
+                      <span className="whitespace-nowrap text-body-bold font-body-bold text-default-font">
+                        State
+                      </span>
+                    </div>
+                  </Table.Cell>
+                  <Table.Cell>
+                    <span className="whitespace-nowrap text-body font-body text-neutral-700">
+                      Candidates within specific state
+                    </span>
+                  </Table.Cell>
+                  <Table.Cell>
+                    <span className="whitespace-nowrap text-body font-body text-neutral-700">
+                      Real-time
+                    </span>
+                  </Table.Cell>
+                  <Table.Cell>
+                    <span className="whitespace-nowrap text-body font-body text-neutral-700">
+                      Regional hiring strategies
+                    </span>
+                  </Table.Cell>
+                </Table.Row>
+                <Table.Row>
+                  <Table.Cell>
+                    <div className="flex items-center gap-2">
+                      <FeatherMapPin className="text-body font-body text-brand-600" />
+                      <span className="whitespace-nowrap text-body-bold font-body-bold text-default-font">
+                        City
+                      </span>
+                    </div>
+                  </Table.Cell>
+                  <Table.Cell>
+                    <span className="whitespace-nowrap text-body font-body text-neutral-700">
+                      Candidates within specific city
+                    </span>
+                  </Table.Cell>
+                  <Table.Cell>
+                    <span className="whitespace-nowrap text-body font-body text-neutral-700">
+                      Real-time
+                    </span>
+                  </Table.Cell>
+                  <Table.Cell>
+                    <span className="whitespace-nowrap text-body font-body text-neutral-700">
+                      Local market recruitment
+                    </span>
+                  </Table.Cell>
+                </Table.Row>
+                <Table.Row>
+                  <Table.Cell>
+                    <div className="flex items-center gap-2">
+                      <FeatherBookOpen className="text-body font-body text-brand-600" />
+                      <span className="whitespace-nowrap text-body-bold font-body-bold text-default-font">
+                        University
+                      </span>
+                    </div>
+                  </Table.Cell>
+                  <Table.Cell>
+                    <span className="whitespace-nowrap text-body font-body text-neutral-700">
+                      Candidates within specific university
+                    </span>
+                  </Table.Cell>
+                  <Table.Cell>
+                    <span className="whitespace-nowrap text-body font-body text-neutral-700">
+                      Real-time
+                    </span>
+                  </Table.Cell>
+                  <Table.Cell>
+                    <span className="whitespace-nowrap text-body font-body text-neutral-700">
+                      Campus recruitment programs
+                    </span>
+                  </Table.Cell>
+                </Table.Row>
+              </Table>
+            </div>
+            <div className="flex h-px w-full flex-none flex-col items-center gap-2 bg-neutral-border" />
+            <div className="flex flex-col items-start gap-3">
+              <span className="font-['Inter'] text-[14px] font-[500] leading-[20px] text-default-font -tracking-[0.01em]">
+                Key Characteristics
+              </span>
+              <div className="flex items-start gap-3">
+                <FeatherCheckSquare className="text-body font-body text-neutral-700" />
+                <span className="font-['Inter'] text-[14px] font-[400] leading-[20px] text-default-font -tracking-[0.01em]">
+                  Rankings update automatically upon score recalculation
+                </span>
+              </div>
+              <div className="flex items-start gap-3">
+                <FeatherCheckSquare className="text-body font-body text-neutral-700" />
+                <span className="font-['Inter'] text-[14px] font-[400] leading-[20px] text-default-font -tracking-[0.01em]">
+                  All rankings are role-specific and maintain separate
+                  hierarchies per job track
+                </span>
+              </div>
+              <div className="flex items-start gap-3">
+                <FeatherCheckSquare className="text-body font-body text-neutral-700" />
+                <span className="font-['Inter'] text-[14px] font-[400] leading-[20px] text-default-font -tracking-[0.01em]">
+                  Recruiters can filter and search across all ranking levels
+                  simultaneously
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="flex w-full flex-col items-center px-6 py-24">
+        <div className="flex w-full max-w-[768px] flex-col items-start gap-12">
+          <span className="font-['Inter'] text-[40px] font-[600] leading-[48px] text-default-font -tracking-[0.04em]">
+            Impact on Hiring Operations
+          </span>
+          <div className="flex w-full flex-col items-start gap-4 rounded-lg border border-solid border-neutral-border bg-white px-8 py-8">
+            <div className="flex items-start gap-4">
+              <div className="flex h-10 w-10 flex-none items-center justify-center rounded-lg bg-neutral-100">
+                <FeatherCheckCircle className="text-heading-3 font-heading-3 text-neutral-700" />
+              </div>
+              <div className="flex grow shrink-0 basis-0 flex-col items-start gap-1">
+                <span className="font-['Inter'] text-[16px] font-[600] leading-[24px] text-default-font -tracking-[0.01em]">
+                  Increased Transparency
+                </span>
+                <span className="font-['Inter'] text-[14px] font-[400] leading-[20px] text-subtext-color -tracking-[0.01em]">
+                  Standardized metrics eliminate ambiguity in candidate
+                  evaluation
+                </span>
+              </div>
+            </div>
+            <div className="flex items-start gap-4">
+              <div className="flex h-10 w-10 flex-none items-center justify-center rounded-lg bg-neutral-100">
+                <FeatherCheckCircle className="text-heading-3 font-heading-3 text-neutral-700" />
+              </div>
+              <div className="flex grow shrink-0 basis-0 flex-col items-start gap-1">
+                <span className="font-['Inter'] text-[16px] font-[600] leading-[24px] text-default-font -tracking-[0.01em]">
+                  Reduced Signal Noise
+                </span>
+                <span className="font-['Inter'] text-[14px] font-[400] leading-[20px] text-subtext-color -tracking-[0.01em]">
+                  Verified capability indicators replace unverifiable résumé
+                  claims
+                </span>
+              </div>
+            </div>
+            <div className="flex items-start gap-4">
+              <div className="flex h-10 w-10 flex-none items-center justify-center rounded-lg bg-neutral-100">
+                <FeatherCheckCircle className="text-heading-3 font-heading-3 text-neutral-700" />
+              </div>
+              <div className="flex grow shrink-0 basis-0 flex-col items-start gap-1">
+                <span className="font-['Inter'] text-[16px] font-[600] leading-[24px] text-default-font -tracking-[0.01em]">
+                  Accelerated Shortlisting
+                </span>
+                <span className="font-['Inter'] text-[14px] font-[400] leading-[20px] text-subtext-color -tracking-[0.01em]">
+                  National rankings enable rapid candidate identification
+                  without manual screening
+                </span>
+              </div>
+            </div>
+            <div className="flex items-start gap-4">
+              <div className="flex h-10 w-10 flex-none items-center justify-center rounded-lg bg-neutral-100">
+                <FeatherCheckCircle className="text-heading-3 font-heading-3 text-neutral-700" />
+              </div>
+              <div className="flex grow shrink-0 basis-0 flex-col items-start gap-1">
+                <span className="font-['Inter'] text-[16px] font-[600] leading-[24px] text-default-font -tracking-[0.01em]">
+                  Merit-Based Discovery
+                </span>
+                <span className="font-['Inter'] text-[14px] font-[400] leading-[20px] text-subtext-color -tracking-[0.01em]">
+                  Capability gains visibility regardless of institutional
+                  affiliation
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="flex w-full flex-col items-center bg-neutral-50 px-6 py-24">
+        <div className="flex w-full max-w-[768px] flex-col items-center gap-8">
+          <div className="flex flex-col items-center gap-4">
+            <span className="font-['Inter'] text-[40px] font-[600] leading-[48px] text-default-font text-center -tracking-[0.04em]">
+              Generate Your Hireability Index
+            </span>
+            <span className="w-full font-['Inter'] text-[16px] font-[400] leading-[24px] text-subtext-color text-center -tracking-[0.01em]">
+              Be part of a new, merit-first way of showcasing talent
+            </span>
+          </div>
+          <Button
+            className="h-10 w-full flex-none"
+            size="large"
+            onClick={(event: React.MouseEvent<HTMLButtonElement>) => {}}
+          >
+            Finish Profile Setup
+          </Button>
+        </div>
+      </div>
+      <div className="flex w-full flex-col items-center justify-center gap-6 border-t border-solid border-neutral-100 px-6 py-12">
+        <div className="flex w-full max-w-[1024px] flex-wrap items-start gap-6">
+          <div className="flex min-w-[320px] flex-col items-start gap-6 self-stretch">
+            <div className="flex w-full min-w-[320px] grow shrink-0 basis-0 items-start gap-4">
+              <img
+                className="h-5 w-5 flex-none object-cover"
+                src="https://res.cloudinary.com/subframe/image/upload/v1711417507/shared/y2rsnhq3mex4auk54aye.png"
+              />
+              <span className="grow shrink-0 basis-0 font-['Inter'] text-[14px] font-[500] leading-[20px] text-default-font -tracking-[0.01em]">
+                UniTalent
+              </span>
+            </div>
+            <div className="flex w-full items-center gap-2">
+              <IconButton
+                icon={<FeatherTwitter />}
+                onClick={(event: React.MouseEvent<HTMLButtonElement>) => {}}
+              />
+              <IconButton
+                icon={<FeatherLinkedin />}
+                onClick={(event: React.MouseEvent<HTMLButtonElement>) => {}}
+              />
+              <IconButton
+                icon={<FeatherInstagram />}
+                onClick={(event: React.MouseEvent<HTMLButtonElement>) => {}}
+              />
+            </div>
+          </div>
+          <div className="flex grow shrink-0 basis-0 flex-wrap items-start gap-4 self-stretch">
+            <div className="flex min-w-[144px] grow shrink-0 basis-0 flex-col items-start gap-4">
+              <span className="w-full font-['Inter'] text-[14px] font-[500] leading-[20px] text-default-font -tracking-[0.01em]">
+                For Candidates
+              </span>
+              <span className="font-['Inter'] text-[14px] font-[400] leading-[20px] text-subtext-color -tracking-[0.01em]">
+                How It Works
+              </span>
+              <span className="font-['Inter'] text-[14px] font-[400] leading-[20px] text-subtext-color -tracking-[0.01em]">
+                Job Tracks
+              </span>
+              <span className="font-['Inter'] text-[14px] font-[400] leading-[20px] text-subtext-color -tracking-[0.01em]">
+                Rankings
+              </span>
+              <span className="font-['Inter'] text-[14px] font-[400] leading-[20px] text-subtext-color -tracking-[0.01em]">
+                Resources
+              </span>
+            </div>
+            <div className="flex min-w-[144px] grow shrink-0 basis-0 flex-col items-start gap-4">
+              <span className="w-full font-['Inter'] text-[14px] font-[500] leading-[20px] text-default-font -tracking-[0.01em]">
+                For Recruiters
+              </span>
+              <span className="font-['Inter'] text-[14px] font-[400] leading-[20px] text-subtext-color -tracking-[0.01em]">
+                Find Talent
+              </span>
+              <span className="font-['Inter'] text-[14px] font-[400] leading-[20px] text-subtext-color -tracking-[0.01em]">
+                Post Jobs
+              </span>
+              <span className="font-['Inter'] text-[14px] font-[400] leading-[20px] text-subtext-color -tracking-[0.01em]">
+                Pricing
+              </span>
+            </div>
+            <div className="flex min-w-[144px] grow shrink-0 basis-0 flex-col items-start gap-4">
+              <span className="w-full font-['Inter'] text-[14px] font-[500] leading-[20px] text-default-font -tracking-[0.01em]">
+                Company
+              </span>
+              <span className="font-['Inter'] text-[14px] font-[400] leading-[20px] text-subtext-color -tracking-[0.01em]">
+                About
+              </span>
+              <span className="font-['Inter'] text-[14px] font-[400] leading-[20px] text-subtext-color -tracking-[0.01em]">
+                Blog
+              </span>
+              <span className="font-['Inter'] text-[14px] font-[400] leading-[20px] text-subtext-color -tracking-[0.01em]">
+                Contact
+              </span>
+              <span className="font-['Inter'] text-[14px] font-[400] leading-[20px] text-subtext-color -tracking-[0.01em]">
+                Privacy
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default TalentRankingPlatform;
