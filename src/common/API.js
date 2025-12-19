@@ -27,10 +27,13 @@ export const URL_PATH = {
   login: "/auth/login",
   getUser: "/user",
 
+  calculateExperienceIndex:"/user/experience_index",// api to calculate experience index
+
   verifyEmail:"/auth/verify/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5MzZhNTY3Y2YxOTlkZWM3NzgxY2E4ZSIsImlhdCI6MTc2NTE4ODk2NywiZXhwIjoxNzY1NzkzNzY3fQ.OkuphrcwOBFyOuAjV3HyNMd-IaeiJa5lR_y7whS3PAc",
 
   demographics:"/user/demographics",
   getDemographics:"/user/demographics",
+  deleteDemographics:"/user/demographics",
 
   education:"/user/education",
   getEducation:"/user/education",
@@ -46,6 +49,8 @@ export const URL_PATH = {
 
   projects:"/user/projects",
   getProjects:"/user/projects", 
+
+  
 
 };
 

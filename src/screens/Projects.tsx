@@ -57,6 +57,12 @@ export default function Projects() {
     null
   );
   const [experienceIndex, setExperienceIndex] = useState<number | null>(null);
+    const [isExpIndexLoading, setIsExpIndexLoading] = useState(true);
+  const [experiencePoints, setExperiencePoints] = useState<any>(null);
+
+  const displayedIndex = experiencePoints?.total ?? 0;
+
+  
 
   // stored projects (example)
   const [projects, setProjects] = useState<ProjectEntry[]>([
@@ -98,25 +104,34 @@ export default function Projects() {
     }
   };
 
+
+  // -------------------- GET EXPERIENCE INDEX --------------------
+  const fetchExperienceIndex = React.useCallback(async () => {
+    if (!userId) return;
+
+    try {
+      const res = await API(
+        "GET",
+        URL_PATH.calculateExperienceIndex,
+        undefined,
+        undefined,
+        { "user-id": userId }
+      );
+
+      setExperiencePoints(res?.points ?? null);
+    } catch {
+      setExperiencePoints(null);
+    } finally {
+      setIsExpIndexLoading(false);
+    }
+  }, [userId]);
+
   //USE EFFECT
+useEffect(() => {
+  fetchProjects();
+  fetchExperienceIndex();
+}, []);
 
-  useEffect(() => {
-    const fetchExperienceIndex = async () => {
-      try {
-        const res = await fetch("/api/experience-index", {
-          credentials: "include",
-        });
-
-        if (!res.ok) return;
-
-        const data = await res.json();
-        setExperienceIndex(data.experienceIndex);
-      } catch {}
-    };
-
-    fetchExperienceIndex();
-    fetchProjects();
-  }, []);
 
   // SC2 small textfield classes
   const scTextFieldClass =
@@ -244,19 +259,19 @@ export default function Projects() {
               icon={<FeatherArrowLeft />}
               onClick={() => navigate(-1)}
             />
-            <div className="flex-1 max-w-[420px]">
+          <div className="flex-1 max-w-[420px]">
               <div className="flex items-center gap-3">
-                {[...Array(7)].map((_, i) => (
+                {[...Array(6)].map((_, i) => (
                   <div
                     key={`p-${i}`}
-                    style={{ height: 4 }}
-                    className="flex-1 rounded-full bg-purple-700"
+                    style={{ height: 6 }}
+                    className="flex-1 rounded-full bg-violet-700"
                   />
                 ))}
-                {[...Array(1)].map((_, i) => (
+                {[...Array()].map((_, i) => (
                   <div
                     key={`n-${i}`}
-                    style={{ height: 4 }}
+                    style={{ height: 6 }}
                     className="flex-1 rounded-full bg-neutral-200"
                   />
                 ))}
@@ -485,7 +500,7 @@ export default function Projects() {
 
             <div className="flex items-center justify-center py-6">
               <span className="font-['Afacad_Flux'] text-[48px] font-[500] leading-[56px] text-neutral-300">
-                {experienceIndex ?? "0"}
+                {displayedIndex ?? "0"}
               </span>
             </div>
 

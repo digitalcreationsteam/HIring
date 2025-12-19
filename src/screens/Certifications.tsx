@@ -69,6 +69,11 @@ const toTitleCase = (value: string) =>
 export default function Certifications() {
   const navigate = useNavigate();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const userId = localStorage.getItem("userId");
+
+
+  
+
 
   // form state
   const [name, setName] = useState("");
@@ -77,6 +82,16 @@ export default function Certifications() {
   const [credentialLink, setCredentialLink] = useState("");
   const [file, setFile] = useState<File | null>(null);
   const [experienceIndex, setExperienceIndex] = useState<number | null>(null);
+  const [experiencePoints, setExperiencePoints] = useState<any>(null);
+
+
+  const displayedIndex =
+  (experiencePoints?.demographics ?? 0) +
+  (experiencePoints?.education ?? 0) +
+  (experiencePoints?.workExperience ?? 0) +
+  (experiencePoints?.certifications ?? 0);
+
+
 
   //GET
   const fetchCertifications = async () => {
@@ -109,30 +124,33 @@ export default function Certifications() {
     }
   };
 
-  useEffect(() => {
-    const userId = localStorage.getItem("userId");
-    if (!userId) return;
 
-    fetchCertifications();
+const fetchExperienceIndex = async () => {
+  if (!userId) return;
 
-    const fetchExperienceIndex = async () => {
-      try {
-        const res = await API(
-          "GET",
-          "/api/experience-index",
-          undefined,
-          undefined,
-          { "user-id": userId }
-        );
+  try {
+    const res = await API(
+      "GET",
+      URL_PATH.calculateExperienceIndex,
+      undefined,
+      undefined,
+      { "user-id": userId }
+    );
 
-        setExperienceIndex(res?.data?.experienceIndex ?? 0);
-      } catch {
-        console.error("Failed to fetch experience index");
-      }
-    };
+    setExperiencePoints(res?.points ?? null);
+  } catch {
+    setExperiencePoints(null);
+  }
+};
 
-    fetchExperienceIndex();
-  }, []);
+
+
+
+ useEffect(() => {
+  fetchCertifications();
+  fetchExperienceIndex();
+}, []);
+
 
   // stored certs
   const [certs, setCerts] = useState<CertEntry[]>([
@@ -297,10 +315,7 @@ export default function Certifications() {
     if (fileInputRef.current) fileInputRef.current.value = "";
   };
 
-  const hasRealCertification = certs.some(
-  (c) => c.id !== "example-1"
-);
-
+  const hasRealCertification = certs.some((c) => c.id !== "example-1");
 
   const canContinue = hasRealCertification;
 
@@ -319,19 +334,20 @@ export default function Certifications() {
     const formData = new FormData();
 
     realCerts.forEach((cert, index) => {
-      formData.append(`certifications[${index}][certificationName]`, cert.name);
-      formData.append(`certifications[${index}][issuer]`, cert.issuer);
-      formData.append(`certifications[${index}][issueDate]`, cert.issueDate);
+      formData.append(`certificationName[${index}]`, cert.name);
+      formData.append(`issuer[${index}]`, cert.issuer);
+
+      // backend expects YYYY-MM-DD, but UI uses MM/YYYY
+      // convert before sending
+      const [mm, yyyy] = cert.issueDate.split("/");
+      formData.append(`issueDate[${index}]`, `${yyyy}-${mm}-01`);
 
       if (cert.credentialLink) {
-        formData.append(
-          `certifications[${index}][credentialLink]`,
-          cert.credentialLink
-        );
+        formData.append(`credentialLink[${index}]`, cert.credentialLink);
       }
 
       if (cert.file) {
-        formData.append(`certifications[${index}][file]`, cert.file);
+        formData.append("certificateFiles", cert.file); // IMPORTANT
       }
     });
 
@@ -343,7 +359,7 @@ export default function Certifications() {
         undefined,
         { "user-id": localStorage.getItem("userId") }
       );
-      if (!res.ok) {
+      if (!res.status == true) {
         let msg = "Failed to save certifications";
         try {
           const err = await res.json();
@@ -385,18 +401,22 @@ export default function Certifications() {
               icon={<FeatherArrowLeft />}
               onClick={() => navigate(-1)}
             />
-            <div className="flex grow items-center justify-center">
-              <div className="w-full max-w-[420px]">
-                <div className="flex items-center gap-2">
-                  <div className="h-1 flex-1 rounded-full bg-violet-500" />
-                  <div className="h-1 flex-1 rounded-full bg-violet-500" />
-                  <div className="h-1 flex-1 rounded-full bg-violet-500" />
-                  <div className="h-1 flex-1 rounded-full bg-violet-500" />
-                  <div className="h-1 flex-1 rounded-full bg-violet-500" />
-                  <div className="h-1 flex-1 rounded-full bg-purple-300" />
-                  <div className="h-1 flex-1 rounded-full bg-neutral-200" />
-                  <div className="h-1 flex-1 rounded-full bg-neutral-200" />
-                </div>
+           <div className="flex-1 max-w-[420px]">
+              <div className="flex items-center gap-3">
+                {[...Array(4)].map((_, i) => (
+                  <div
+                    key={`p-${i}`}
+                    style={{ height: 6 }}
+                    className="flex-1 rounded-full bg-violet-700"
+                  />
+                ))}
+                {[...Array(2)].map((_, i) => (
+                  <div
+                    key={`n-${i}`}
+                    style={{ height: 6 }}
+                    className="flex-1 rounded-full bg-neutral-200"
+                  />
+                ))}
               </div>
             </div>
           </div>
@@ -662,7 +682,7 @@ export default function Certifications() {
                 aria-live="polite"
                 className="font-['Afacad_Flux'] text-[48px] font-[500] leading-[56px] text-neutral-300"
               >
-                {experienceIndex ?? 0}
+                {displayedIndex ?? 0}
               </span>
             </div>
 

@@ -19,12 +19,27 @@ import {
 } from "@subframe/core";
 import API, { URL_PATH } from "src/common/API";
 
-const notify = (msg: string) => {
-  console.error(msg); // replace with toast later
+type DemographicsResponse = {
+  fullName: string;
+  email: string;
+  phoneNumber?: string;
+  city: string;
+  state: string;
+  country: string;
+  phoneVisibleToRecruiters?: boolean;
 };
+
+const notify = (msg: string) => {
+  console.warn(msg);
+};
+
+
 
 export default function Demographics() {
   const navigate = useNavigate();
+
+  const userId = React.useMemo(() => localStorage.getItem("userId"), []);
+
   const scTextFieldClass =
     "w-full [&>label]:text-[8px] [&>div]:rounded-full [&>div]:border [&>div]:border-neutral-200 [&>div]:h-8";
 
@@ -55,15 +70,15 @@ export default function Demographics() {
     }
 
     if (!textRegex.test(form.city.trim())) {
-      return "Please enter a valid city fullName.";
+      return "Please enter a valid city Name.";
     }
 
     if (!textRegex.test(form.state.trim())) {
-      return "Please enter a valid state fullName.";
+      return "Please enter a valid state Name.";
     }
 
     if (!textRegex.test(form.country.trim())) {
-      return "Please enter a valid country fullName.";
+      return "Please enter a valid country Name.";
     }
 
     return null;
@@ -71,6 +86,11 @@ export default function Demographics() {
 
   /* -------------------- STATE -------------------- */
   const [phoneVisibleToRecruiters, setShowPhone] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+
+  const [experienceIndex, setExperienceIndex] = useState<number>(0);
+  const [isExpIndexLoading, setIsExpIndexLoading] = useState(true);
+  const [experiencePoints, setExperiencePoints] = useState<any>(null);
 
   const [form, setForm] = useState({
     fullName: "",
@@ -87,11 +107,32 @@ export default function Demographics() {
   };
 
   /* -------------------- EXPERIENCE INDEX -------------------- */
-  const [experienceIndex, setExperienceIndex] = useState<number>(0);
+
+  const displayedIndex = 0;
+
+  // -------------------- GET EXPERIENCE INDEX --------------------
+  const fetchExperienceIndex = React.useCallback(async () => {
+    if (!userId) return;
+
+    try {
+      const res = await API(
+        "GET",
+        URL_PATH.calculateExperienceIndex,
+        undefined,
+        undefined,
+        { "user-id": userId }
+      );
+
+      setExperiencePoints(res?.points ?? null);
+    } catch {
+      setExperiencePoints(null);
+    } finally {
+      setIsExpIndexLoading(false);
+    }
+  }, [userId]);
 
   // GET
   const fetchDemographics = React.useCallback(async () => {
-    const userId = localStorage.getItem("userId");
     if (!userId) return;
 
     try {
@@ -103,50 +144,35 @@ export default function Demographics() {
         { "user-id": userId }
       );
 
-      const data = res?.data;
-      if (!data) return;
+      const data = res as DemographicsResponse;
+
+      if (!data || !data.fullName) {
+        console.warn("No demographics data found", res);
+        return;
+      }
 
       setForm({
-        fullName: data.fullName || "",
-        email: data.email || "",
-        phoneNumber: data.phoneNumber || "",
-        city: data.city || "",
-        state: data.state || "",
-        country: data.country || "",
+        fullName: data.fullName ?? "",
+        email: data.email ?? "",
+        phoneNumber: data.phoneNumber ?? "",
+        city: data.city ?? "",
+        state: data.state ?? "",
+        country: data.country ?? "",
       });
 
       setShowPhone(!!data.phoneVisibleToRecruiters);
     } catch {
       notify("Failed to fetch demographics");
+    } finally {
+      setIsLoading(false);
     }
-  }, []);
+  }, [userId]);
 
   //USE EFFECT
- useEffect(() => {
-  const userId = localStorage.getItem("userId");
-  if (!userId) return;
-
-  fetchDemographics();
-
-  const fetchExperienceIndex = async () => {
-    try {
-      const res = await API(
-        "GET",
-        "/api/experience-index",
-        undefined,
-        undefined,
-        { "user-id": userId }
-      );
-
-      setExperienceIndex(res?.data?.experienceIndex ?? 0);
-    } catch {
-      notify("Failed to fetch experience index");
-    }
-  };
-
-  fetchExperienceIndex();
-}, [fetchDemographics]);
-
+  useEffect(() => {
+    fetchDemographics();
+    fetchExperienceIndex();
+  }, [fetchDemographics, fetchExperienceIndex]);
 
   /* -------------------- CONTINUE -------------------- */
 
@@ -159,8 +185,6 @@ export default function Demographics() {
       return;
     }
 
-    const userId = localStorage.getItem("userId");
-
     if (!userId) {
       notify("Session expired. Please login again.");
       navigate("/login");
@@ -168,26 +192,32 @@ export default function Demographics() {
     }
 
     const payload = {
-      ...form,
+      fullName: form.fullName.trim(),
+      email: form.email.trim(),
+      phoneNumber: form.phoneNumber.trim() || null,
+      city: form.city.trim(),
+      state: form.state.trim(),
+      country: form.country.trim(),
       phoneVisibleToRecruiters,
     };
 
     try {
       setIsSubmitting(true);
 
-      const response = await API("POST", URL_PATH.demographics, payload);
+      await API("POST", URL_PATH.demographics, payload, undefined, {
+        "user-id": userId,
+      });
 
-      console.log("Demographics submitted:", response);
       navigate("/education");
     } catch (err: any) {
-      notify(err.message || "Failed to submit demographics. Please try again.");
+      notify(err?.message || "Failed to submit demographics");
     } finally {
       setIsSubmitting(false);
     }
   };
 
   return (
-    <div className="min-h-screen flex justify-center bg-gradient-to-br from-purple-50 via-white to-neutral-50 px-6 py-24">
+    <div className="min-h-screen flex justify-center bg-gradient-to-br from-purple-50 via-white to-neutral-50 px-6 py-40">
       <div className="w-full max-w-[800px] flex gap-8">
         {/* LEFT CARD */}
         <main className="w-full max-w-[480px] bg-white rounded-3xl border border-solid px-8 py-6 shadow-[0_10px_30px_rgba(40,0,60,0.06)]">
@@ -201,7 +231,7 @@ export default function Demographics() {
             <div className="flex-1 max-w-[420px]">
               <div className="flex items-center gap-3">
                 <div className="flex-1 h-[5px] rounded-full bg-violet-700" />
-                {[...Array(7)].map((_, i) => (
+                {[...Array(5)].map((_, i) => (
                   <div
                     key={i}
                     className="flex-1 h-[5px] rounded-full bg-neutral-200"
@@ -329,10 +359,14 @@ export default function Demographics() {
 
           <Button
             onClick={handleContinue}
-            disabled={isSubmitting}
-            className="w-full h-9 rounded-full bg-violet-700 text-white shadow-[0_6px_18px_rgba(99,52,237,0.18)]"
+            disabled={isSubmitting || isLoading}
+            className="w-full h-9 rounded-full bg-violet-700 text-white"
           >
-            {isSubmitting ? "Submitting..." : "Continue"}
+            {isLoading
+              ? "Loading..."
+              : isSubmitting
+              ? "Submitting..."
+              : "Continue"}
           </Button>
         </main>
 
@@ -344,9 +378,15 @@ export default function Demographics() {
             </h3>
 
             <div className="flex justify-center py-6">
-              <span className="text-[48px] font-medium text-neutral-300">
-                {experienceIndex}
-              </span>
+              {isExpIndexLoading ? (
+                <span className="text-[32px] font-medium text-neutral-300">
+                  Calculating…
+                </span>
+              ) : (
+                <span className="text-[48px] font-semibold text-neutral-300">
+                  {displayedIndex}
+                </span>
+              )}
             </div>
 
             <div className="h-px bg-neutral-100" />

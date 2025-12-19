@@ -54,6 +54,9 @@ export default function Experience() {
   const userId = localStorage.getItem("userId");
 
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  
+
   // form state
   const [roleTitle, setRoleTitle] = useState("");
   const [typeOfRole, setTypeOfRole] = useState("");
@@ -152,7 +155,7 @@ export default function Experience() {
   const toSentenceCase = (v: string) =>
     v ? v.charAt(0).toUpperCase() + v.slice(1) : v;
 
-  const TEXT_REGEX = /^[A-Za-z][A-Za-z\s.&-]{1,50}$/;
+const TEXT_REGEX = /^[A-Za-z0-9][A-Za-z0-9\s.&()+/-]{1,80}$/;
 
   const isValidText = (value: string) => {
     return TEXT_REGEX.test(value.trim());
@@ -220,44 +223,73 @@ export default function Experience() {
     setExperiences((prev) => prev.filter((e) => e.id !== id));
   };
 
+  // GET
 
- // GET
+  const fetchExperiences = React.useCallback(async () => {
+    if (!userId) return;
 
-const fetchExperiences = async () => {
-  if (!userId) return;
+    try {
+      const res = await API(
+        "GET",
+        URL_PATH.getExperience,
+        undefined,
+        undefined,
+        { "user-id": userId }
+      );
 
-  try {
-    const res = await API(
-      "GET",
-      URL_PATH.getExperience,
-      undefined,
-      undefined,
-      { "user-id": userId }
-    );
+      const apiExperiences = res?.data ?? [];
 
-    const apiExperiences = res?.data || [];
-
-    const mappedExperiences: ExperienceEntry[] = apiExperiences.map(
-      (e: any) => ({
+      const mapped: ExperienceEntry[] = apiExperiences.map((e: any) => ({
         id: e._id,
-        roleTitle: e.jobTitle,
-        company: e.companyName,
+        roleTitle: e.jobTitle ?? "",
+        company: e.companyName ?? "",
         startDate: `01/${e.startYear}`,
         endDate: e.currentlyWorking
           ? undefined
           : e.endYear
           ? `01/${e.endYear}`
           : undefined,
-        currentlyWorking: e.currentlyWorking,
+        currentlyWorking: !!e.currentlyWorking,
         description: e.description || undefined,
-      })
+      }));
+
+      setExperiences(mapped);
+    } catch (err) {
+      console.error("Failed to fetch experience", err);
+    }
+  }, [userId]);
+
+  // GET EXPERIENCE INDEX
+  const [experienceIndex, setExperienceIndex] = useState<number | null>(null);
+  const [isExpIndexLoading, setIsExpIndexLoading] = useState(true);
+  const [experiencePoints, setExperiencePoints] = useState<any>(null);
+  
+
+  const displayedIndex =
+  (experiencePoints?.demographics ?? 0) +
+  (experiencePoints?.education ?? 0) +
+  (experiencePoints?.workExperience ?? 0);
+
+
+  const fetchExperienceIndex = React.useCallback(async () => {
+  if (!userId) return;
+
+  try {
+    const res = await API(
+      "GET",
+      URL_PATH.calculateExperienceIndex,
+      undefined,
+      undefined,
+      { "user-id": userId }
     );
 
-    setExperiences(mappedExperiences.length ? mappedExperiences : []);
-  } catch (error) {
-    console.error("Failed to fetch experience", error);
+    setExperiencePoints(res?.points ?? null);
+  } catch {
+    setExperiencePoints(null);
+  } finally {
+    setIsExpIndexLoading(false);
   }
-};
+}, [userId]);
 
 
   //  PAYLOAD
@@ -317,6 +349,7 @@ const fetchExperiences = async () => {
       await API("POST", URL_PATH.experience, payload, undefined, {
         "user-id": userId,
       });
+      await fetchExperienceIndex();
 
       navigate("/certifications");
     } catch (err: any) {
@@ -326,26 +359,12 @@ const fetchExperiences = async () => {
     }
   };
 
-  const [experienceIndex, setExperienceIndex] = useState<number | null>(null);
+  useEffect(() => {
+    if (!userId) return;
 
- useEffect(() => {
-  const fetchExperienceIndex = async () => {
-    try {
-      const res = await fetch("/api/experience-index", {
-        credentials: "include",
-      });
-
-      if (!res.ok) return;
-
-      const data = await res.json();
-      setExperienceIndex(data.experienceIndex);
-    } catch {}
-  };
-
-  fetchExperienceIndex();
-  fetchExperiences(); 
-}, []);
-
+    fetchExperiences();
+    fetchExperienceIndex();
+  }, [userId, fetchExperiences, fetchExperienceIndex]);
 
   return (
     <div className="min-h-screen flex justify-center bg-gradient-to-br from-purple-50 via-white to-neutral-50 px-6 py-20">
@@ -361,7 +380,7 @@ const fetchExperiences = async () => {
             />
             <div className="flex-1 max-w-[420px]">
               <div className="flex items-center gap-3">
-                {[...Array(5)].map((_, i) => (
+                {[...Array(3)].map((_, i) => (
                   <div
                     key={`p-${i}`}
                     style={{ height: 6 }}
@@ -672,8 +691,8 @@ const fetchExperiences = async () => {
             </h3>
 
             <div className="flex items-center justify-center py-6">
-              <span className="font-['Afacad_Flux'] text-[48px] font-[500] leading-[56px] text-neutral-400">
-                {experienceIndex !== null ? experienceIndex : "0"}
+              <span className="font-['Afacad_Flux'] text-[48px] font-[500] leading-[56px] text-neutral-300">
+                {displayedIndex !== null ? displayedIndex : "0"}
               </span>
             </div>
 
@@ -708,7 +727,7 @@ const fetchExperiences = async () => {
               </div>
 
               {/* 🟣 Experience — Active */}
-              <div className="flex items-center gap-3 rounded-2xl border border-purple-200 bg-purple-50 px-4 py-2 mb-3">
+              <div className="flex items-center gap-3 rounded-2xl border border-violet-200 bg-violet-50 px-4 py-2 mb-3">
                 <div className="flex items-center justify-center h-8 w-8 rounded-2xl bg-white shadow-sm">
                   <IconWithBackground
                     size="small"

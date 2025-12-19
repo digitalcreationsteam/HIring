@@ -43,6 +43,16 @@ export default function Awards() {
   const [description, setDescription] = useState("");
   const [year, setYear] = useState("");
   const [experienceIndex, setExperienceIndex] = useState<number | null>(null);
+  const [isExpIndexLoading, setIsExpIndexLoading] = useState(true);
+const [experiencePoints, setExperiencePoints] = useState<any>(null);
+
+  const displayedIndex =
+  (experiencePoints?.demographics ?? 0) +
+  (experiencePoints?.education ?? 0) +
+  (experiencePoints?.workExperience ?? 0) +
+  (experiencePoints?.certifications ?? 0) +
+  (experiencePoints?.awards ?? 0);
+
 
   //GET
   const fetchAwards = async () => {
@@ -69,23 +79,33 @@ export default function Awards() {
     }
   };
 
+ 
+
+  // -------------------- GET EXPERIENCE INDEX --------------------
+  const fetchExperienceIndex = React.useCallback(async () => {
+    if (!userId) return;
+
+    try {
+      const res = await API(
+        "GET",
+        URL_PATH.calculateExperienceIndex,
+        undefined,
+        undefined,
+        { "user-id": userId }
+      );
+
+      setExperiencePoints(res?.points ?? null);
+    } catch {
+      setExperiencePoints(null);
+    } finally {
+      setIsExpIndexLoading(false);
+    }
+  }, [userId]);
+
   //USE EFFECT
   useEffect(() => {
-    const fetchExperienceIndex = async () => {
-      try {
-        const res = await fetch("/api/experience-index", {
-          credentials: "include",
-        });
-
-        if (!res.ok) return;
-
-        const data = await res.json();
-        setExperienceIndex(data.experienceIndex);
-      } catch {}
-    };
-
-    fetchExperienceIndex();
     fetchAwards();
+    fetchExperienceIndex();
   }, []);
 
   // stored awards (example)
@@ -218,17 +238,17 @@ export default function Awards() {
             />
             <div className="flex-1 max-w-[420px]">
               <div className="flex items-center gap-3">
-                {[...Array(6)].map((_, i) => (
+                {[...Array(5)].map((_, i) => (
                   <div
                     key={`p-${i}`}
-                    style={{ height: 4 }}
-                    className="flex-1 rounded-full bg-purple-700"
+                    style={{ height: 6 }}
+                    className="flex-1 rounded-full bg-violet-700"
                   />
                 ))}
-                {[...Array(2)].map((_, i) => (
+                {[...Array(1)].map((_, i) => (
                   <div
                     key={`n-${i}`}
-                    style={{ height: 4 }}
+                    style={{ height: 6 }}
                     className="flex-1 rounded-full bg-neutral-200"
                   />
                 ))}
@@ -377,7 +397,7 @@ export default function Awards() {
                 aria-live="polite"
                 className="font-['Afacad_Flux'] text-[48px] font-[500] leading-[56px] text-neutral-300"
               >
-                {experienceIndex ?? 0}
+                {displayedIndex ?? 0}
               </span>
             </div>
 

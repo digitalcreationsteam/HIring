@@ -70,9 +70,16 @@ export default function Education() {
   const [currentlyStudying, setStudying] = useState(false);
   const [gpa, setGpa] = useState("");
   const [experienceIndex, setExperienceIndex] = useState<number | null>(null);
+  const [isExpIndexLoading, setIsExpIndexLoading] = useState(true);
+const [experiencePoints, setExperiencePoints] = useState<any>(null);
 
   // stored entries
   const [educations, setEducations] = useState<EducationEntry[]>([]);
+
+  const displayedIndex =
+  (experiencePoints?.demographics ?? 0) +
+  (experiencePoints?.education ?? 0);
+
 
   // helpers
   const validateEducation = (): string | null => {
@@ -150,7 +157,7 @@ export default function Education() {
   const canContinue = hasEducation;
 
   // -------------------- GET EDUCATION --------------------
-  const fetchEducations = async () => {
+  const fetchEducations = React.useCallback(async () => {
     if (!userId) return;
 
     try {
@@ -177,35 +184,48 @@ export default function Education() {
         })
       );
 
-      setEducations(mappedEducations.length ? mappedEducations : []);
+      setEducations(mappedEducations);
     } catch (error) {
       console.error("Failed to fetch education", error);
     }
-  };
+  }, [userId]);
+
+
+  // -------------------- GET EXPERIENCE INDEX --------------------
+const fetchExperienceIndex = React.useCallback(async () => {
+  if (!userId) return;
+
+  try {
+    const res = await API(
+      "GET",
+      URL_PATH.calculateExperienceIndex,
+      undefined,
+      undefined,
+      { "user-id": userId }
+    );
+
+    setExperiencePoints(res?.points ?? null);
+  } catch {
+    setExperiencePoints(null);
+  } finally {
+    setIsExpIndexLoading(false);
+  }
+}, [userId]);
+
+
+
+
+
+  
 
   //use Effect
   useEffect(() => {
-    if (!userId) return;
+  if (!userId) return;
 
-    const fetchExperienceIndex = async () => {
-      try {
-        const res = await API(
-          "GET",
-          "/api/experience-index",
-          undefined,
-          undefined,
-          { "user-id": userId }
-        );
+  fetchExperienceIndex();
+  fetchEducations();
+}, [userId, fetchExperienceIndex, fetchEducations]);
 
-        setExperienceIndex(res?.data?.experienceIndex ?? 0);
-      } catch (err) {
-        console.error("Failed to fetch experience index", err);
-      }
-    };
-
-    fetchExperienceIndex();
-    fetchEducations();
-  }, [userId]);
 
   /* -------------------- BUILD PAYLOAD -------------------- */
   const buildEducationPayload = (list: EducationEntry[]) => {
@@ -277,14 +297,14 @@ export default function Education() {
 
             <div className="flex-1 max-w-[420px]">
               <div className="flex items-center gap-3">
-                {[...Array(5)].map((_, i) => (
+                {[...Array(2)].map((_, i) => (
                   <div
                     key={`p-${i}`}
                     style={{ height: 6 }}
                     className="flex-1 rounded-full bg-violet-700"
                   />
                 ))}
-                {[...Array(3)].map((_, i) => (
+                {[...Array(4)].map((_, i) => (
                   <div
                     key={`n-${i}`}
                     style={{ height: 6 }}
@@ -538,9 +558,15 @@ export default function Education() {
             </h3>
 
             <div className="flex items-center justify-center py-6">
-              <span className="font-['Afacad_Flux'] text-[48px] font-[500] leading-[56px] text-neutral-300">
-                {experienceIndex ?? 0}
-              </span>
+              {isExpIndexLoading ? (
+                <span className="text-[28px] text-neutral-300">
+                  Calculating…
+                </span>
+              ) : (
+                <span className="font-['Afacad_Flux'] text-[48px] font-[500] leading-[56px] text-neutral-300">
+                  {displayedIndex ?? 0}
+                </span>
+              )}
             </div>
 
             {/* Top form horizontal line */}
