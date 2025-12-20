@@ -189,13 +189,55 @@ useEffect(() => {
     resetForm();
   };
 
-  const handleRemove = (id: string) => {
+  // -------------------- DELETE PROJECT --------------------
+const handleRemove = async (id: string) => {
+  // demo item → local delete only
+  if (id === "example-1") {
+    setProjects((prev) => prev.filter((p) => p.id !== id));
+    return;
+  }
+
+  if (!userId) {
+    alert("Session expired. Please login again.");
+    navigate("/login");
+    return;
+  }
+
+  const confirmDelete = window.confirm(
+    "Are you sure you want to delete this project?"
+  );
+  if (!confirmDelete) return;
+
+  try {
+    setIsSubmitting(true);
+
+    await API(
+      "DELETE",
+      `${URL_PATH.deleteProject}/${id}`, 
+      undefined,
+      undefined,
+      { "user-id": userId }
+    );
+
+    // update UI
     setProjects((prev) => prev.filter((p) => p.id !== id));
 
+    // clear selected project if deleted
     if (selectedProject?.id === id) {
       setSelectedProject(null);
     }
-  };
+
+    // refresh Experience Index
+    await fetchExperienceIndex();
+  } catch (err: any) {
+    alert(
+      err?.response?.data?.message || "Failed to delete project"
+    );
+  } finally {
+    setIsSubmitting(false);
+  }
+};
+
 
   //PAYLOAD
   const buildProjectsPayload = (list: ProjectEntry[]) => {

@@ -219,9 +219,44 @@ const TEXT_REGEX = /^[A-Za-z0-9][A-Za-z0-9\s.&()+/-]{1,80}$/;
     resetForm();
   };
 
-  const handleRemove = (id: string) => {
+  // DELETE EXPERIENCE
+ const handleRemove = async (id: string) => {
+  if (id === "example-1") {
     setExperiences((prev) => prev.filter((e) => e.id !== id));
-  };
+    return;
+  }
+
+  if (!userId) {
+    alert("Session expired. Please login again.");
+    navigate("/login");
+    return;
+  }
+
+  const confirmDelete = window.confirm(
+    "Are you sure you want to delete this experience?"
+  );
+  if (!confirmDelete) return;
+
+  try {
+    await API(
+      "DELETE",
+      `${URL_PATH.deleteExperience}/${id}`,
+      undefined,
+      undefined,
+      { "user-id": userId }
+    );
+
+    // remove from UI
+    setExperiences((prev) => prev.filter((e) => e.id !== id));
+
+    // refresh experience index
+    await fetchExperienceIndex();
+  } catch (err: any) {
+    console.error("Delete failed", err);
+    alert(err?.message || "Failed to delete experience");
+  }
+};
+
 
   // GET
 
@@ -260,7 +295,6 @@ const TEXT_REGEX = /^[A-Za-z0-9][A-Za-z0-9\s.&()+/-]{1,80}$/;
   }, [userId]);
 
   // GET EXPERIENCE INDEX
-  const [experienceIndex, setExperienceIndex] = useState<number | null>(null);
   const [isExpIndexLoading, setIsExpIndexLoading] = useState(true);
   const [experiencePoints, setExperiencePoints] = useState<any>(null);
   

@@ -66,14 +66,14 @@ const toTitleCase = (value: string) =>
     .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
     .join(" ");
 
+const notify = (msg: string) => {
+  alert(msg); // replace with toast later
+};
+
 export default function Certifications() {
   const navigate = useNavigate();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const userId = localStorage.getItem("userId");
-
-
-  
-
 
   // form state
   const [name, setName] = useState("");
@@ -81,17 +81,13 @@ export default function Certifications() {
   const [issueDate, setIssueDate] = useState("");
   const [credentialLink, setCredentialLink] = useState("");
   const [file, setFile] = useState<File | null>(null);
-  const [experienceIndex, setExperienceIndex] = useState<number | null>(null);
   const [experiencePoints, setExperiencePoints] = useState<any>(null);
 
-
   const displayedIndex =
-  (experiencePoints?.demographics ?? 0) +
-  (experiencePoints?.education ?? 0) +
-  (experiencePoints?.workExperience ?? 0) +
-  (experiencePoints?.certifications ?? 0);
-
-
+    (experiencePoints?.demographics ?? 0) +
+    (experiencePoints?.education ?? 0) +
+    (experiencePoints?.workExperience ?? 0) +
+    (experiencePoints?.certifications ?? 0);
 
   //GET
   const fetchCertifications = async () => {
@@ -124,33 +120,28 @@ export default function Certifications() {
     }
   };
 
+  const fetchExperienceIndex = async () => {
+    if (!userId) return;
 
-const fetchExperienceIndex = async () => {
-  if (!userId) return;
+    try {
+      const res = await API(
+        "GET",
+        URL_PATH.calculateExperienceIndex,
+        undefined,
+        undefined,
+        { "user-id": userId }
+      );
 
-  try {
-    const res = await API(
-      "GET",
-      URL_PATH.calculateExperienceIndex,
-      undefined,
-      undefined,
-      { "user-id": userId }
-    );
+      setExperiencePoints(res?.points ?? null);
+    } catch {
+      setExperiencePoints(null);
+    }
+  };
 
-    setExperiencePoints(res?.points ?? null);
-  } catch {
-    setExperiencePoints(null);
-  }
-};
-
-
-
-
- useEffect(() => {
-  fetchCertifications();
-  fetchExperienceIndex();
-}, []);
-
+  useEffect(() => {
+    fetchCertifications();
+    fetchExperienceIndex();
+  }, []);
 
   // stored certs
   const [certs, setCerts] = useState<CertEntry[]>([
@@ -270,9 +261,49 @@ const fetchExperienceIndex = async () => {
     resetForm();
   };
 
-  const handleRemove = (id: string) => {
+ // -------------------- DELETE CERTIFICATION --------------------
+const handleRemove = async (id: string) => {
+  if (!userId) {
+    notify("Session expired. Please login again.");
+    navigate("/login");
+    return;
+  }
+
+  // demo item → local delete only
+  if (id === "example-1") {
     setCerts((prev) => prev.filter((c) => c.id !== id));
-  };
+    return;
+  }
+
+  const confirmDelete = window.confirm(
+    "Are you sure you want to delete this certification?"
+  );
+  if (!confirmDelete) return;
+
+  try {
+    setIsSubmitting(true);
+
+    await API(
+      "DELETE",
+      `${URL_PATH.deleteCertification}/${id}`, 
+      undefined,
+      undefined,
+      { "user-id": userId }
+    );
+
+    
+    setCerts((prev) => prev.filter((c) => c.id !== id));
+
+   await fetchExperienceIndex();
+  } catch (err: any) {
+    notify(
+      err?.response?.data?.message || "Failed to delete certification"
+    );
+  } finally {
+    setIsSubmitting(false);
+  }
+};
+
 
   // File handling (.pdf only, <= 5MB)
   const handleBrowseFile = () => fileInputRef.current?.click();
@@ -401,7 +432,7 @@ const fetchExperienceIndex = async () => {
               icon={<FeatherArrowLeft />}
               onClick={() => navigate(-1)}
             />
-           <div className="flex-1 max-w-[420px]">
+            <div className="flex-1 max-w-[420px]">
               <div className="flex items-center gap-3">
                 {[...Array(4)].map((_, i) => (
                   <div

@@ -42,17 +42,15 @@ export default function Awards() {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [year, setYear] = useState("");
-  const [experienceIndex, setExperienceIndex] = useState<number | null>(null);
   const [isExpIndexLoading, setIsExpIndexLoading] = useState(true);
-const [experiencePoints, setExperiencePoints] = useState<any>(null);
+  const [experiencePoints, setExperiencePoints] = useState<any>(null);
 
   const displayedIndex =
-  (experiencePoints?.demographics ?? 0) +
-  (experiencePoints?.education ?? 0) +
-  (experiencePoints?.workExperience ?? 0) +
-  (experiencePoints?.certifications ?? 0) +
-  (experiencePoints?.awards ?? 0);
-
+    (experiencePoints?.demographics ?? 0) +
+    (experiencePoints?.education ?? 0) +
+    (experiencePoints?.workExperience ?? 0) +
+    (experiencePoints?.certifications ?? 0) +
+    (experiencePoints?.awards ?? 0);
 
   //GET
   const fetchAwards = async () => {
@@ -78,8 +76,6 @@ const [experiencePoints, setExperiencePoints] = useState<any>(null);
       console.error("Failed to fetch awards", error);
     }
   };
-
- 
 
   // -------------------- GET EXPERIENCE INDEX --------------------
   const fetchExperienceIndex = React.useCallback(async () => {
@@ -173,8 +169,46 @@ const [experiencePoints, setExperiencePoints] = useState<any>(null);
     resetForm();
   };
 
-  const handleRemove = (id: string) => {
-    setAwards((prev) => prev.filter((a) => a.id !== id));
+  // -------------------- DELETE AWARD --------------------
+  const handleRemove = async (id: string) => {
+    // demo item → remove locally only
+    if (id === "example-1") {
+      setAwards((prev) => prev.filter((a) => a.id !== id));
+      return;
+    }
+
+    if (!userId) {
+      alert("Session expired. Please login again.");
+      navigate("/login");
+      return;
+    }
+
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete this award?"
+    );
+    if (!confirmDelete) return;
+
+    try {
+      setIsSubmitting(true);
+
+      await API(
+        "DELETE",
+        `${URL_PATH.deleteAward}/${id}`, // ✅ IMPORTANT
+        undefined,
+        undefined,
+        { "user-id": userId }
+      );
+
+      // update UI
+      setAwards((prev) => prev.filter((a) => a.id !== id));
+
+      // refresh experience index
+      await fetchExperienceIndex();
+    } catch (err: any) {
+      alert(err?.response?.data?.message || "Failed to delete award");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const buildAwardsPayload = (list: AwardEntry[]) => {

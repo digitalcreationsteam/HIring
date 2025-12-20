@@ -37,18 +37,23 @@ export const URL_PATH = {
 
   education:"/user/education",
   getEducation:"/user/education",
+  deleteEducation:"/user/education",
 
   experience:"/user/work",
   getExperience:"/user/work",
+  deleteExperience:"/user/work",
 
   certification:"/user/certification",
   getCertification:"/user/certification", 
+  deleteCertification:"/user/certification",
 
   awards:"/user/awards", 
   getAwards:"/user/awards",
+  deleteAward:"/user/awards",
 
   projects:"/user/projects",
   getProjects:"/user/projects", 
+  deleteProject:"/user/projects",
 
   
 
@@ -66,7 +71,7 @@ export default async function API(
   try {
     const config = {
       method: method.toLowerCase(),
-      url, // 👈 relative path
+      url, 
       headers: {
         ...headers,
       },

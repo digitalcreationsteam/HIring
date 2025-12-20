@@ -33,8 +33,6 @@ const notify = (msg: string) => {
   console.warn(msg);
 };
 
-
-
 export default function Demographics() {
   const navigate = useNavigate();
 
@@ -216,6 +214,47 @@ export default function Demographics() {
     }
   };
 
+  // DELETE API :
+  const handleDeleteDemographics = async () => {
+    if (!userId) {
+      notify("Session expired. Please login again.");
+      navigate("/login");
+      return;
+    }
+
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete your demographics data? This action cannot be undone."
+    );
+
+    if (!confirmDelete) return;
+
+    try {
+      setIsSubmitting(true);
+
+      await API("DELETE", URL_PATH.deleteDemographics, undefined, undefined, {
+        "user-id": userId,
+      });
+
+      // Clear local state after successful delete
+      setForm({
+        fullName: "",
+        email: "",
+        phoneNumber: "",
+        city: "",
+        state: "",
+        country: "",
+      });
+
+      setShowPhone(false);
+
+      notify("Demographics deleted successfully.");
+    } catch (err: any) {
+      notify(err?.message || "Failed to delete demographics");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   return (
     <div className="min-h-screen flex justify-center bg-gradient-to-br from-purple-50 via-white to-neutral-50 px-6 py-40">
       <div className="w-full max-w-[800px] flex gap-8">
@@ -357,17 +396,27 @@ export default function Demographics() {
 
           <div className="w-full h-px bg-neutral-200 my-5" />
 
-          <Button
-            onClick={handleContinue}
-            disabled={isSubmitting || isLoading}
-            className="w-full h-9 rounded-full bg-violet-700 text-white"
-          >
-            {isLoading
-              ? "Loading..."
-              : isSubmitting
-              ? "Submitting..."
-              : "Continue"}
-          </Button>
+          <div className="flex gap-3">
+            <Button
+              onClick={handleContinue}
+              disabled={isSubmitting || isLoading}
+              className="flex-1 h-9 rounded-full bg-violet-700 text-white"
+            >
+              {isLoading
+                ? "Loading..."
+                : isSubmitting
+                ? "Submitting..."
+                : "Continue"}
+            </Button>
+
+            {/* <Button
+              onClick={handleDeleteDemographics}
+              disabled={isSubmitting}
+              className="h-9 rounded-full bg-gray-300 text-white hover:bg-gray-600 "
+            >
+              Delete
+            </Button> */}
+          </div>
         </main>
 
         {/* RIGHT PANEL */}

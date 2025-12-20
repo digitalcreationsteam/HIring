@@ -69,7 +69,6 @@ export default function Education() {
   const [endYear, setEndYear] = useState("");
   const [currentlyStudying, setStudying] = useState(false);
   const [gpa, setGpa] = useState("");
-  const [experienceIndex, setExperienceIndex] = useState<number | null>(null);
   const [isExpIndexLoading, setIsExpIndexLoading] = useState(true);
 const [experiencePoints, setExperiencePoints] = useState<any>(null);
 
@@ -149,9 +148,42 @@ const [experiencePoints, setExperiencePoints] = useState<any>(null);
     resetForm();
   };
 
-  const handleRemove = (id: string) => {
+
+  // -------------------- DELETE EDUCATION --------------------
+ const handleRemove = async (id: string) => {
+  if (!userId) {
+    notify("Session expired. Please login again.");
+    navigate("/login");
+    return;
+  }
+
+  const confirmDelete = window.confirm(
+    "Are you sure you want to delete this education?"
+  );
+  if (!confirmDelete) return;
+
+  try {
+    setIsSubmitting(true);
+
+    await API(
+      "DELETE",
+      `${URL_PATH.deleteEducation}/${id}`,
+      undefined,
+      undefined,
+      { "user-id": userId }
+    );
+
     setEducations((prev) => prev.filter((e) => e.id !== id));
-  };
+    await fetchExperienceIndex();
+  } catch (err: any) {
+    notify(err?.message || "Failed to delete education");
+  } finally {
+    setIsSubmitting(false);
+  }
+};
+
+
+
 
   const hasEducation = educations.length > 0;
   const canContinue = hasEducation;
