@@ -1,12 +1,14 @@
 "use client";
 
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import { Badge } from "../ui/components/Badge";
 import { Button } from "../ui/components/Button";
 import { IconWithBackground } from "../ui/components/IconWithBackground";
 import { FeatherCheck, FeatherStar } from "@subframe/core";
 
 function Paywall() {
+  const navigate = useNavigate();
   return (
     <div className="min-h-screen w-full flex flex-col items-center justify-center bg-neutral-50 px-4">
       <div className="w-full max-w-[800px] flex flex-col items-center gap-10">
@@ -50,13 +52,13 @@ function Paywall() {
           </div>
 
           {/* ✅ PREMIUM CARD (HIGHLIGHTED) */}
-          <div className="w-full max-w-[380px] bg-white border-2 border-purple-600 rounded-3xl p-6 flex flex-col gap-6 shadow-md">
+          <div className="w-full max-w-[380px] bg-white border-2 border-violet-600 rounded-3xl p-6 flex flex-col gap-6 shadow-md">
             {/* ✅ Title + Popular Badge */}
             <div>
               <div className="flex items-center gap-2">
                 <h2 className="text-2xl text-gray-900">Premium Plan</h2>
 
-                <div className="flex items-center gap-1 bg-purple-100 text-purple-600 text-xs font-medium px-3 py-1 rounded-full">
+                <div className="flex items-center gap-1 bg-violet-100 text-violet-600 text-xs font-medium px-3 py-1 rounded-full">
                   <FeatherStar className="w-3 h-3" />
                   <span>Popular</span>
                 </div>
@@ -75,9 +77,9 @@ function Paywall() {
                 "Monthly growth reports",
               ].map((item) => (
                 <div key={item} className="flex items-center gap-3">
-                  {/* ✅ Light purple premium-only icon */}
-                  <div className="w-5 h-5 rounded-full bg-purple-100 flex items-center justify-center">
-                    <FeatherCheck className="text-purple-600 w-3 h-3" />
+                  {/* ✅ Light violet premium-only icon */}
+                  <div className="w-5 h-5 rounded-full bg-violet-100 flex items-center justify-center">
+                    <FeatherCheck className="text-violet-600 w-3 h-3" />
                   </div>
 
                   <span className="text-sm text-gray-800">{item}</span>
@@ -88,7 +90,11 @@ function Paywall() {
         </div>
 
         {/* ✅ CONTINUE BUTTON */}
-        <Button className="w-full max-w-[760px] h-10 rounded-full bg-purple-600 hover:bg-purple-700 text-white font-semibold">
+        <Button
+          className="w-full max-w-[760px] h-10 rounded-full bg-violet-600 hover:bg-violet-700 text-white font-semibold"
+          size="large"
+          onClick={() => navigate("/job-domain")}
+        >
           Continue
         </Button>
       </div>

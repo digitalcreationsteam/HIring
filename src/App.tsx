@@ -19,12 +19,13 @@ import JobDomain from "./screens/JobDomain";
 import Skills from "./screens/Skills";
 import AssessmentIntro from "./screens/AssesmentIntro";
 import AssessmentPage from "./screens/AssesmentPage";
-import AssessmentResults from "./screens/AssesmentResults";
+import AssessmentResult from "./screens/AssesmentResult";
 import Login from "./screens/Login";
 import SkillAssessmentCard from "./screens/SkillsAssesment";
 import TalentRankingPlatform from "./screens/TalentRankingPlatform";
 import Demographics from "./screens/Demographics";
 import SkillIndexIntro from "./screens/SkillIndexIntro";
+import './App.css';
 
 const router = createBrowserRouter([
   { path: "/", element: <LogIn /> },
@@ -54,7 +55,7 @@ const router = createBrowserRouter([
 
   { path: "/assessment-intro", element: <AssessmentIntro /> },
   { path: "/assessment", element: <AssessmentPage /> },
-  { path: "/assessment-results", element: <AssessmentResults /> },
+  { path: "/assessment-results", element: <AssessmentResult /> },
 ]);
 
 export default function App() {

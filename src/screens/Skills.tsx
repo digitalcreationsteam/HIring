@@ -74,8 +74,8 @@ export default function Skills() {
     alert("Continue clicked — check console for skills array.");
   };
   return (
-    <div className="min-h-screen flex justify-center items-start bg-neutral-50 px-6 py-12">
-      <main className="w-full max-w-[720px] bg-white rounded-3xl shadow-[0_10px_30px_rgba(40,0,60,0.06)] border border-neutral-200 px-10 py-10">
+    <div className="min-h-screen flex justify-center items-center bg-neutral-50 px-6 py-10">
+      <main className="w-full max-w-[720px] bg-white rounded-3xl shadow-[0_10px_30px_rgba(40,0,60,0.06)] border border-neutral-200 px-10 py-8">
         {/* top row - back + progress */}
         <div className="flex items-center gap-4">
           <IconButton
@@ -89,7 +89,7 @@ export default function Skills() {
                 <div
                   key={`p-${i}`}
                   style={{ height: 6 }}
-                  className="flex-1 rounded-full bg-purple-700"
+                  className="flex-1 rounded-full bg-violet-700"
                 />
               ))}
               {[...Array(1)].map((_, i) => (
@@ -187,7 +187,7 @@ export default function Skills() {
 
         <footer>
   <Button
-    className="w-full h-10 rounded-full bg-gradient-to-r from-purple-600 to-purple-500 
+    className="w-full h-10 rounded-full bg-gradient-to-r from-violet-600 to-violet-600 
                text-white shadow-[0_6px_18px_rgba(99,52,237,0.18)]"
     onClick={handleContinue}
     disabled={skills.length === 0}

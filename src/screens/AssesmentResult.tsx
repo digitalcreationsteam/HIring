@@ -1,0 +1,307 @@
+"use client";
+
+import React from "react";
+import { Badge } from "../ui/components/Badge";
+import { Button } from "../ui/components/Button";
+import { IconWithBackground } from "../ui/components/IconWithBackground";
+import { FeatherArrowRight } from "@subframe/core";
+import { FeatherAward } from "@subframe/core";
+import { FeatherBookOpen } from "@subframe/core";
+import { FeatherCalendar } from "@subframe/core";
+import { FeatherClock } from "@subframe/core";
+import { FeatherGlobe } from "@subframe/core";
+import { FeatherMap } from "@subframe/core";
+import { FeatherMapPin } from "@subframe/core";
+import { FeatherShield } from "@subframe/core";
+import { FeatherTarget } from "@subframe/core";
+import { FeatherUsers } from "@subframe/core";
+
+function AssessmentResult() {
+  return (
+    <div className="w-full bg-neutral-50 py-12">
+      <div className="mx-auto flex w-full max-w-[1024px] flex-col gap-8 px-4">
+        {/* Header */}
+        <div className="flex w-full flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+          <div className="flex flex-col gap-1">
+            <span className="text-xl font-semibold text-default-font">
+              Assessment Results
+            </span>
+            <span className="text-sm text-subtext-color">
+              Product Management · Skill Index
+            </span>
+          </div>
+        </div>
+
+        <div className="relative w-full overflow-hidden rounded-3xl border-[3px] border-violet-300 bg-gradient-to-b from-[#F4F2FF] to-white px-4 py-8 sm:px-12 sm:py-14 shadow-lg">
+          {/* Score */}
+          <div className="flex flex-col items-center gap-6">
+            <div className="flex items-end gap-3">
+              <span className="text-[64px] sm:text-[80px] lg:text-[96px] font-bold leading-none text-violet-600">
+                87
+              </span>
+              <span className="text-[20px] sm:text-[28px] lg:text-[32px] font-medium text-subtext-color pb-2 sm:pb-4">
+                / 100
+              </span>
+            </div>
+          </div>
+
+          {/* Performance Tier */}
+          <div className="mt-8 flex w-full max-w-[768px] flex-col items-center gap-6 mx-auto">
+            <div className="flex flex-col items-center">
+              <span className="text-sm text-subtext-color">
+                Performance Tier
+              </span>
+              <span className="text-base font-semibold text-violet-600">
+                Top 15%
+              </span>
+            </div>
+
+            {/* Tier Progress */}
+            <div className="flex w-full items-center gap-4 overflow-x-auto sm:overflow-visible px-2 sm:px-0">
+              {/* Development */}
+              <div className="flex flex-col items-center gap-2 shrink-0">
+                <div className="flex h-12 w-12 sm:h-14 sm:w-14 items-center justify-center rounded-full bg-neutral-300">
+                  <span className="text-xs font-medium text-neutral-600">
+                    40%
+                  </span>
+                </div>
+                <span className="text-xs text-neutral-600">Development</span>
+              </div>
+
+              <div className="hidden sm:block h-1 flex-1 rounded-full bg-neutral-300" />
+
+              {/* Competent */}
+              <div className="flex flex-col items-center gap-2 shrink-0">
+                <div className="flex h-12 w-12 sm:h-14 sm:w-14 items-center justify-center rounded-full bg-neutral-300">
+                  <span className="text-xs font-medium text-neutral-600">
+                    25%
+                  </span>
+                </div>
+                <span className="text-xs text-neutral-600">Competent</span>
+              </div>
+
+              <div className="hidden sm:block h-1 flex-1 rounded-full bg-neutral-300" />
+
+              {/* You are here (Blinking) */}
+              <div className="flex flex-col items-center gap-2 shrink-0 animate-soft-blink">
+                <div className="flex h-16 w-16 sm:h-20 sm:w-20 items-center justify-center rounded-full bg-violet-500">
+                  <span className="text-sm font-semibold text-white">15%</span>
+                </div>
+                <span className="rounded-full bg-violet-100 px-3 py-1 text-xs text-violet-700">
+                  You are here
+                </span>
+              </div>
+
+              <div className="hidden sm:block h-1 flex-1 rounded-full bg-neutral-300" />
+
+              {/* Advanced */}
+              <div className="flex flex-col items-center gap-2 shrink-0">
+                <div className="flex h-12 w-12 sm:h-14 sm:w-14 items-center justify-center rounded-full border border-dashed border-violet-300 bg-white">
+                  <span className="text-xs font-medium text-violet-600">
+                    10%
+                  </span>
+                </div>
+                <span className="text-xs text-violet-600">Advanced</span>
+              </div>
+
+              <div className="hidden sm:block h-1 flex-1 rounded-full bg-neutral-300" />
+
+              {/* Master */}
+              <div className="flex flex-col items-center gap-2 shrink-0">
+                <div className="flex h-12 w-12 sm:h-14 sm:w-14 items-center justify-center rounded-full border border-dashed border-neutral-300 bg-white">
+                  <span className="text-xs font-medium text-neutral-500">
+                    10%
+                  </span>
+                </div>
+                <span className="text-xs text-neutral-500">Master</span>
+              </div>
+            </div>
+
+            {/* Info Bar */}
+            <div className="mt-6 flex w-full items-center justify-center gap-2 rounded-2xl border border-violet-200 bg-violet-100 px-4 py-3">
+              <span className="text-sm font-medium text-violet-700">
+                → Just 3 points from Top 10%
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <div className="flex w-full items-center justify-center gap-8 rounded-3xl border border-neutral-200 bg-white px-8 py-4 shadow-md">
+          <div className="flex items-center gap-2">
+            <FeatherCalendar className="text-sm text-green-600" />
+            <div className="flex flex-col">
+              <span className="text-[14px] font-medium text-default-font">
+                Dec 15, 2024
+              </span>
+              <span className="text-xs text-subtext-color">Completed</span>
+            </div>
+          </div>
+
+          <div className="h-6 w-px bg-neutral-200" />
+
+          <div className="flex items-center gap-2">
+            <FeatherClock className="text-sm text-violet-600" />
+            <div className="flex flex-col">
+              <span className="text-[14px] font-medium text-default-font">
+                27 minutes
+              </span>
+              <span className="text-xs text-subtext-color">Time Taken</span>
+            </div>
+          </div>
+
+          <div className="h-6 w-px bg-neutral-200" />
+
+          <div className="flex items-center gap-2">
+            <FeatherShield className="text-sm text-green-600" />
+            <div className="flex flex-col">
+              <span className="text-[14px] font-medium text-default-font">
+                Good
+              </span>
+              <span className="text-xs text-subtext-color">
+                Integrity Report
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <div className="grid w-full grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {/* University */}
+          <div className="flex min-w-[220px] grow flex-col items-center gap-3 rounded-3xl border border-violet-200 bg-gradient-to-b from-[#F4F2FF] to-white px-6 py-8 shadow-md">
+            <IconWithBackground
+              className="text-yellow-700 bg-yellow-100 rounded-full text-[20px]"
+              variant="warning"
+              size="large"
+              icon={<FeatherAward />}
+            />
+            <span className="text-lg font-semibold text-default-font">23</span>
+            <span className="text-sm text-subtext-color">
+              University Ranking
+            </span>
+          </div>
+
+          {/* City */}
+          <div className="flex min-w-[220px] grow flex-col items-center gap-3 rounded-3xl border border-violet-200 bg-gradient-to-b from-[#F4F2FF] to-white px-6 py-8 shadow-md">
+            <IconWithBackground
+              className="text-violet-700 bg-violet-100 rounded-full text-[20px]"
+              variant="brand"
+              size="large"
+              icon={<FeatherMapPin />}
+            />
+            <span className="text-lg font-semibold text-default-font">234</span>
+            <span className="text-sm text-subtext-color">City Ranking</span>
+          </div>
+
+          {/* Country */}
+          <div className="flex min-w-[220px] grow flex-col items-center gap-3 rounded-3xl border border-violet-200 bg-gradient-to-b from-[#F4F2FF] to-white px-6 py-8 shadow-md">
+            <IconWithBackground
+              className="text-violet-700 bg-violet-100 rounded-full text-[20px]"
+              variant="brand"
+              size="large"
+              icon={<FeatherMap />}
+            />
+            <span className="text-lg font-semibold text-default-font">456</span>
+            <span className="text-sm text-subtext-color">Country Ranking</span>
+          </div>
+
+          {/* Global */}
+          <div className="flex min-w-[220px] grow flex-col items-center gap-3 rounded-3xl border border-violet-200 bg-gradient-to-b from-[#F4F2FF] to-white px-6 py-8 shadow-md">
+            <IconWithBackground
+              className="text-violet-700 bg-violet-100 rounded-full text-[20px]"
+              variant="brand"
+              size="large"
+              icon={<FeatherGlobe />}
+            />
+            <span className="text-lg font-semibold text-default-font">
+              4,567
+            </span>
+            <span className="text-sm text-subtext-color">Global Ranking</span>
+          </div>
+        </div>
+
+        <div className="flex w-full flex-col items-start gap-6 rounded-3xl border border-solid border-neutral-border bg-white px-8 py-8 shadow-md">
+          <div className="flex w-full items-center gap-3">
+            <FeatherTarget className="text-heading-3 font-heading-3 text-violet-700" />
+            <span className="text-heading-3 font-heading-3 text-default-font">
+              Your Next Moves
+            </span>
+          </div>
+          <div className="grid w-full grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+            <div className="flex min-w-[288px] grow shrink-0 basis-0 flex-col items-start gap-4 rounded-3xl border-2 border-solid border-yellow-400 bg-yellow-50 px-6 py-6 shadow-lg">
+              <div className="flex items-center gap-2">
+                <FeatherClock className="text-body font-body text-yellow-700" />
+                <Badge
+                  className="rounded-3xl  bg-yellow-100 text-yellow-700 border-none"
+                  variant="warning"
+                >
+                  Limited Time
+                </Badge>
+              </div>
+              <span className="text-bold font-body-bold text-default-font">
+                Retake Assessment
+              </span>
+              <span className="text-sm font-body text-subtext-color">
+                You have 1 free retake, and 1 paid retake remaining. Improve
+                your score to increase your rankings.
+              </span>
+              <Button
+                className="h-10 w-full flex-none rounded-2xl text-violet-700 bg-violet-700"
+                variant="brand-primary"
+                size="large"
+                iconRight={<FeatherArrowRight />}
+                onClick={(event: React.MouseEvent<HTMLButtonElement>) => {}}
+              >
+                Retake Now
+              </Button>
+            </div>
+            <div className="flex min-w-[288px] grow shrink-0 basis-0 flex-col items-start gap-4 rounded-3xl border border-solid border-neutral-border bg-default-background px-6 py-6 shadow-md">
+              <FeatherUsers className="text-heading-3 font-heading-3 text-violet-700" />
+              <span className="text-bold font-body-bold text-default-font mb-2">
+                Compare with Top Performers
+              </span>
+              <span className="text-sm font-body text-subtext-color">
+                See how you stack up against top performers in your region.
+              </span>
+              <Button
+                className="h-10 w-full flex-none rounded-2xl text-violet-700 bg-violet-100"
+                variant="brand-secondary"
+                size="large"
+                onClick={(event: React.MouseEvent<HTMLButtonElement>) => {}}
+              >
+                View Leaderboard
+              </Button>
+            </div>
+            <div className="flex min-w-[288px] grow shrink-0 basis-0 flex-col items-start gap-4 rounded-3xl border border-solid border-neutral-border bg-default-background px-6 py-6 shadow-md">
+              <FeatherBookOpen className="text-heading-3 font-heading-3 text-violet-700" />
+              <span className="text-bold font-body-bold text-default-font mb-2">
+                Improve Score
+              </span>
+              <span className="text-sm font-body text-subtext-color">
+                Out of retakes? See how you can improve your score
+              </span>
+              <Button
+                className="h-10 w-full flex-none rounded-2xl text-violet-700 bg-violet-100 "
+                variant="brand-secondary"
+                size="large"
+                onClick={(event: React.MouseEvent<HTMLButtonElement>) => {}}
+              >
+                View Resources
+              </Button>
+            </div>
+          </div>
+        </div>
+        <div className="flex w-full items-center justify-center opacity-60">
+          <Button
+            className="w-full max-w-[180px] h-10 rounded-2xl bg-violet-600 hover:bg-violet-800 text-white font-semibold"
+            size="large"
+            iconRight={<FeatherArrowRight />}
+            onClick={(event: React.MouseEvent<HTMLButtonElement>) => {}}
+          >
+            Go to Dashboard
+          </Button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default AssessmentResult;

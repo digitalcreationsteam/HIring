@@ -1,109 +1,147 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { Button } from "../ui/components/Button";
-import { DropdownMenu } from "../ui/components/DropdownMenu";
 import { IconButton } from "../ui/components/IconButton";
-import { IconWithBackground } from "../ui/components/IconWithBackground";
-import { FeatherAlertTriangle } from "@subframe/core";
-import { FeatherArrowLeft } from "@subframe/core";
-import { FeatherChevronDown } from "@subframe/core";
+import { FeatherArrowLeft, FeatherChevronDown } from "@subframe/core";
+import { useNavigate } from "react-router-dom";
 import * as SubframeCore from "@subframe/core";
+import { DropdownMenu } from "../ui/components/DropdownMenu";
 
 function JobDomain() {
+  const navigate = useNavigate();
+  const [domain, setDomain] = useState("");
+  const domains = [
+    "Product Management",
+    "Design",
+    "Data Analytics",
+    "Marketing",
+    "Software Engineering",
+    "Human Resources",
+    "Sales",
+    "Finance",
+    "Operations",
+    "Customer Support",
+    "Content Writing",
+    "Quality Assurance",
+    "Business Analysis",
+    "Digital Marketing",
+    "UI/UX Design",
+    "Project Management",
+    "Data Science",
+    "Machine Learning",
+    "AI Research",
+    "Legal",
+    "Administration",
+    "Healthcare",
+    "Education",
+    "Supply Chain",
+    "Hospitality",
+    "Other",
+  ];
+
   return (
-    <div className="flex h-full w-full items-center justify-center bg-neutral-50 px-6 py-6">
-      <div className="flex max-w-[1280px] grow shrink-0 basis-0 items-start justify-center gap-6 mx-auto">
-        <div className="flex max-w-[576px] grow shrink-0 basis-0 flex-col items-start gap-6 rounded-lg border border-solid border-neutral-border bg-default-background px-8 py-8 shadow-lg">
-          <div className="flex w-full items-center justify-center gap-4">
+    <div className="min-h-screen bg-neutral-50 px-8 py-10 flex items-center justify-center">
+      <div className="flex max-w-[660px] w-full mx-auto">
+        <div className="flex w-full flex-col gap-8 rounded-3xl border border-neutral-border bg-white px-10 py-8 shadow-lg">
+          {/* Header */}
+          <div className="flex w-full items-center gap-4">
             <IconButton
               size="small"
               icon={<FeatherArrowLeft />}
-              onClick={(event: React.MouseEvent<HTMLButtonElement>) => {}}
+              onClick={() => navigate(-1)}
             />
-            <div className="flex grow shrink-0 basis-0 items-center justify-center gap-4">
-              <div className="flex grow shrink-0 basis-0 items-center gap-2">
-                <div className="flex h-1 grow shrink-0 basis-0 items-start rounded-full bg-brand-primary" />
-                <div className="flex h-1 grow shrink-0 basis-0 items-start rounded-full bg-brand-primary" />
-                <div className="flex h-1 grow shrink-0 basis-0 items-start rounded-full bg-brand-primary" />
-                <div className="flex h-1 grow shrink-0 basis-0 items-start rounded-full bg-brand-primary" />
-                <div className="flex h-1 grow shrink-0 basis-0 items-start rounded-full bg-brand-primary" />
-                <div className="flex h-1 grow shrink-0 basis-0 items-start rounded-full bg-brand-primary" />
-                <div className="flex h-1 grow shrink-0 basis-0 items-start rounded-full bg-brand-primary" />
-                <div className="flex h-1 grow shrink-0 basis-0 items-start rounded-full bg-brand-300" />
-              </div>
+
+            {/* Progress */}
+            <div className="flex flex-1 gap-2">
+              {[...Array(7)].map((_, i) => (
+                <div
+                  key={i}
+                  className="h-1 flex-1 rounded-full bg-violet-700"
+                />
+              ))}
+              <div className="h-1 flex-1 rounded-full bg-violet-300" />
             </div>
           </div>
-          <div className="flex w-full flex-col items-start">
-            <span className="text-heading-2 font-heading-2 text-default-font">
+
+          {/* Title */}
+          <div className="flex flex-col">
+            <h2 className="text-[24px] text-neutral-900">
               Choose your job domain
-            </span>
-            <span className="text-caption font-caption text-subtext-color">
+            </h2>
+            <p className="text-xs text-neutral-500">
               Your domain and skills will decide your assessment and rankings
-            </span>
+            </p>
           </div>
-          <div className="flex w-full flex-col items-start gap-6">
-            <div className="flex w-full flex-col items-start gap-2">
-              <span className="text-body-bold font-body-bold text-default-font">
-                Job Domain *
-              </span>
+
+          {/* Form */}
+          <div className="flex flex-col gap-6 w-full">
+            <div className="flex flex-col gap-2">
+              <label className="text-sm font-medium text-neutral-900">
+                Job Domain <span className="text-red-500">*</span>
+              </label>
+
               <SubframeCore.DropdownMenu.Root>
-                <SubframeCore.DropdownMenu.Trigger asChild={true}>
-                  <div className="flex w-full items-center justify-between rounded-md border border-solid border-neutral-border bg-neutral-100 px-3 py-2 cursor-pointer">
-                    <span className="text-body font-body text-default-font">
-                      Product Management
+                <SubframeCore.DropdownMenu.Trigger asChild>
+                  <div
+                    className=" flex w-full h-10 items-center justify-between rounded-3xl border border-neutral-200 bg-neutral-50 px-4 cursor-pointer shadow-sm hover:shadow-md transitio "
+                  >
+                    <span
+                      className={`text-sm truncate ${
+                        domain ? "text-neutral-900" : "text-neutral-400"
+                      }`}
+                    >
+                      {domain || "Select your domain"}
                     </span>
-                    <FeatherChevronDown className="text-body font-body text-default-font" />
+
+                    <FeatherChevronDown className="text-neutral-600 shrink-0" />
                   </div>
                 </SubframeCore.DropdownMenu.Trigger>
+
                 <SubframeCore.DropdownMenu.Portal>
                   <SubframeCore.DropdownMenu.Content
-                    side="bottom"
+                    sideOffset={6}
                     align="start"
-                    sideOffset={4}
-                    asChild={true}
+                    side="bottom"
+                    collisionPadding={18}
+                    asChild
                   >
-                    <DropdownMenu className="h-auto grow shrink-0 basis-0">
-                      <DropdownMenu.DropdownItem icon={null}>
-                        Product Management
-                      </DropdownMenu.DropdownItem>
-                      <DropdownMenu.DropdownItem icon={null}>
-                        Design
-                      </DropdownMenu.DropdownItem>
-                      <DropdownMenu.DropdownItem icon={null}>
-                        Data Analytics
-                      </DropdownMenu.DropdownItem>
-                      <DropdownMenu.DropdownItem icon={null}>
-                        Marketing
-                      </DropdownMenu.DropdownItem>
-                    </DropdownMenu>
+                    <div
+                      className="
+      bg-white
+      rounded-2xl
+      shadow-lg
+      py-2
+      w-full
+      max-h-[260px]
+      overflow-y-auto
+      animate-fade-out
+    "
+                    >
+                      {domains.map((item) => (
+                        <div
+                          key={item}
+                          onClick={() => setDomain(item)}
+                          className={`px-4 py-2 cursor-pointer text-sm rounded-lg hover:bg-violet-50 ${
+                            domain === item ? "bg-violet-100 font-semibold" : ""
+                          } transition`}
+                        >
+                          {item}
+                        </div>
+                      ))}
+                    </div>
                   </SubframeCore.DropdownMenu.Content>
                 </SubframeCore.DropdownMenu.Portal>
               </SubframeCore.DropdownMenu.Root>
             </div>
-            <div className="flex w-full flex-col items-start gap-3 rounded-md border border-solid border-warning-300 bg-warning-50 px-4 py-4">
-              <div className="flex w-full items-start gap-3">
-                <IconWithBackground
-                  variant="warning"
-                  size="small"
-                  icon={<FeatherAlertTriangle />}
-                />
-                <div className="flex grow shrink-0 basis-0 flex-col items-start gap-1">
-                  <span className="text-body-bold font-body-bold text-default-font">
-                    Choose with care.
-                  </span>
-                  <span className="text-body font-body text-subtext-color">
-                    Your job domain cannot be changed later. Recruiters prefer
-                    candidates who stay focused on one domain.
-                  </span>
-                </div>
-              </div>
-            </div>
           </div>
-          <div className="flex w-full items-center justify-between border-t border-solid border-neutral-border pt-4">
+
+          {/* Footer */}
+          <div className="flex w-full border-t border-neutral-200 pt-6">
             <Button
-              className="h-8 grow shrink-0 basis-0"
-              onClick={(event: React.MouseEvent<HTMLButtonElement>) => {}}
+              className="h-9 w-full rounded-2xl bg-violet-600 text-sm font-medium text-white hover:bg-violet-700 transition"
+              onClick={() => navigate("/skills")}
+              disabled={!domain}
             >
               Continue
             </Button>

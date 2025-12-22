@@ -39,27 +39,27 @@ function AssessmentPage() {
             key: "A",
             title: "A. Fix slow load times",
             description:
-              "Performance impacts every user session and creates frustration before they can even use features. Faster load times directly improve retention metrics."
+              "Performance impacts every user session and creates frustration before they can even use features. Faster load times directly improve retention metrics.",
           },
           {
             key: "B",
             title: "B. Simplify navigation",
             description:
-              "If users cannot find features, they cannot use them. Better navigation increases feature discovery and time spent in app."
+              "If users cannot find features, they cannot use them. Better navigation increases feature discovery and time spent in app.",
           },
           {
             key: "C",
             title: "C. Add personalization",
             description:
-              "Personalized experiences drive engagement and make users feel the app understands their needs, creating stronger product-market fit."
+              "Personalized experiences drive engagement and make users feel the app understands their needs, creating stronger product-market fit.",
           },
           {
             key: "D",
             title: "D. Address all three issues with a phased approach",
             description:
-              "Rather than choosing one, break each problem into smaller increments and ship iterative improvements across all three areas throughout the quarter."
-          }
-        ]
+              "Rather than choosing one, break each problem into smaller increments and ship iterative improvements across all three areas throughout the quarter.",
+          },
+        ],
       },
       // create 20 questions placeholders to match your UI counts (you can replace these)
       ...Array.from({ length: 19 }).map((_, idx) => ({
@@ -69,40 +69,39 @@ function AssessmentPage() {
           {
             key: "A" as OptionKey,
             title: `A. Option A for ${idx + 2}`,
-            description: "Option A description"
+            description: "Option A description",
           },
           {
             key: "B" as OptionKey,
             title: `B. Option B for ${idx + 2}`,
-            description: "Option B description"
+            description: "Option B description",
           },
           {
             key: "C" as OptionKey,
             title: `C. Option C for ${idx + 2}`,
-            description: "Option C description"
+            description: "Option C description",
           },
           {
             key: "D" as OptionKey,
             title: `D. Option D for ${idx + 2}`,
-            description: "Option D description"
-          }
-        ]
-      }))
+            description: "Option D description",
+          },
+        ],
+      })),
     ],
     []
   );
 
   // --- STATE ---
   const [currentIndex, setCurrentIndex] = useState<number>(0); // 0-based
-  const [answers, setAnswers] = useState<(OptionKey | null)[]>(
-    () => Array(questions.length).fill(null)
+  const [answers, setAnswers] = useState<(OptionKey | null)[]>(() =>
+    Array(questions.length).fill(null)
   );
 
-  // Timer initial value matches your UI: 38:45 => 38*60 + 45
-  const initialTimeSeconds = 38 * 60 + 45;
-  const [remainingSeconds, setRemainingSeconds] = useState<number>(
-    initialTimeSeconds
-  );
+  // Timer initial value matches your UI: 24:59 => 24 * 60 + 59;
+  const initialTimeSeconds = 24 * 60 + 59;
+  const [remainingSeconds, setRemainingSeconds] =
+    useState<number>(initialTimeSeconds);
 
   // --- TIMER EFFECT ---
   useEffect(() => {
@@ -181,7 +180,7 @@ function AssessmentPage() {
         <div
           key={qIndex}
           onClick={() => goToQuestion(qIndex)}
-          className="flex h-10 w-10 flex-none items-center justify-center rounded-2xl border-2 border-solid border-purple-600 bg-purple-100 cursor-pointer"
+          className="flex h-10 w-10 flex-none items-center justify-center rounded-2xl border-2 border-solid border-violet-600 bg-violet-100 cursor-pointer"
         >
           <span className="text-body-bold font-body-bold text-brand-600">
             {qIndex + 1}
@@ -225,13 +224,12 @@ function AssessmentPage() {
   // Current question to show
   const currentQuestion = questions[currentIndex];
 
-  //Sidebar 
+  //Sidebar
   const [sidebarOpen, setSidebarOpen] = useState(true);
 
-
   return (
-    <div className="container max-w-none flex h-full w-full flex-col items-center gap-4 bg-neutral-50 py-12">
-      <div className="flex w-full max-w-[1024px] grow shrink-0 basis-0 items-stretch h-full justify-center gap-6">
+    <div className="w-screen h-screen bg-neutral-50 flex justify-center py-12">
+      <div className="flex w-full max-w-[1024px] h-full items-stretch gap-6">
         <div className="flex w-64 flex-none flex-col items-start gap-4 self-stretch h-full rounded-2xl border border-solid border-neutral-border bg-white px-8 py-8 overflow-y-auto">
           <div className="flex w-full items-start gap-4">
             <div className="flex grow shrink-0 basis-0 flex-col items-start gap-2">
@@ -242,10 +240,10 @@ function AssessmentPage() {
                 {answeredCount} of {questions.length} answered
               </span>
             </div>
-<FeatherSidebar
-  className="mt-2 text-body font-body text-subtext-color cursor-pointer"
-  onClick={() => setSidebarOpen((prev) => !prev)}
-/>
+            <FeatherSidebar
+              className="mt-2 text-body font-body text-subtext-color cursor-pointer"
+              onClick={() => setSidebarOpen((prev) => !prev)}
+            />
           </div>
           <div className="flex items-center gap-2 flex-wrap mt-3">
             {questions.map((_, idx) => renderNavigatorItem(idx))}
@@ -256,7 +254,7 @@ function AssessmentPage() {
 
           <div className="flex w-full flex-col items-start gap-2">
             <div className="flex w-full items-center gap-2">
-              <div className="flex h-3 w-3 flex-none items-start rounded-full bg-purple-600" />
+              <div className="flex h-3 w-3 flex-none items-start rounded-full bg-violet-600" />
               <span className="text-caption font-caption text-default-font">
                 Current
               </span>
@@ -277,7 +275,6 @@ function AssessmentPage() {
         </div>
 
         <div className="flex grow shrink-0 basis-0 flex-col items-start justify-start gap-4 h-full">
-
           <div className="flex w-full items-center justify-between rounded-full border bg-yellow-50 px-3 py-1">
             <div className="flex items-center gap-2">
               <FeatherAlertCircle className="text-caption font-caption text-yellow-700" />
@@ -315,7 +312,7 @@ function AssessmentPage() {
                 title={`${progressPercent}% complete`}
               >
                 <div
-                  className="h-full rounded-full bg-purple-600"
+                  className="h-full rounded-full bg-violet-600"
                   style={{ width: `${progressPercent}%` }}
                 />
               </div>
@@ -341,10 +338,12 @@ function AssessmentPage() {
                 {currentQuestion.options.map((opt) => (
                   <CheckboxCard
                     key={opt.key}
-className={`h-auto w-full flex-none rounded-2xl border px-4 py-3 
-  ${answers[currentIndex] === opt.key 
-    ? "border-purple-600 bg-purple-50" 
-    : "border-neutral-200 bg-white"}
+                    className={`h-auto w-full flex-none rounded-2xl border px-4 py-3 
+  ${
+    answers[currentIndex] === opt.key
+      ? "border-violet-600 bg-violet-50"
+      : "border-neutral-200 bg-white"
+  }
 `}
                     hideCheckbox={true}
                     checked={answers[currentIndex] === opt.key}
@@ -357,7 +356,8 @@ className={`h-auto w-full flex-none rounded-2xl border px-4 py-3
                         setAnswers((prev) => {
                           const copy = [...prev];
                           // only clear if the same option being toggled off
-                          if (copy[currentIndex] === opt.key) copy[currentIndex] = null;
+                          if (copy[currentIndex] === opt.key)
+                            copy[currentIndex] = null;
                           return copy;
                         });
                       }
@@ -390,13 +390,15 @@ className={`h-auto w-full flex-none rounded-2xl border px-4 py-3
                 Skip Question
               </Button>
               <Button
-                className="w-10px h-10 rounded-full bg-gradient-to-r from-purple-600 to-purple-500 
+                className="w-10px h-10 rounded-full bg-gradient-to-r from-violet-600 to-violet-600  hovur:from-violet-600 hover:to-violet-800
                text-white shadow-[0_6px_18px_rgba(99,52,237,0.18)]"
                 size="large"
                 iconRight={<FeatherArrowRight />}
                 onClick={() => nextQuestion()}
               >
-                {currentIndex < questions.length - 1 ? "Next Question" : "Submit"}
+                {currentIndex < questions.length - 1
+                  ? "Next Question"
+                  : "Submit"}
               </Button>
             </div>
           </div>
