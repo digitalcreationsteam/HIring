@@ -50,3 +50,7 @@
 .animate-soft-blink {
   animation: softBlink 2s ease-in-out infinite;
 }
+
+* {
+  font-family: 'Inter', sans-serif;
+}

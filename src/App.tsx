@@ -26,6 +26,7 @@ import TalentRankingPlatform from "./screens/TalentRankingPlatform";
 import Demographics from "./screens/Demographics";
 import SkillIndexIntro from "./screens/SkillIndexIntro";
 import './App.css';
+import Dashboard from "./screens/Dashboard";
 
 const router = createBrowserRouter([
   { path: "/", element: <LogIn /> },
@@ -56,6 +57,8 @@ const router = createBrowserRouter([
   { path: "/assessment-intro", element: <AssessmentIntro /> },
   { path: "/assessment", element: <AssessmentPage /> },
   { path: "/assessment-results", element: <AssessmentResult /> },
+
+  { path: "/dashboard", element: <Dashboard /> },
 ]);
 
 export default function App() {
