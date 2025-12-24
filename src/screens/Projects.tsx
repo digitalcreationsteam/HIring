@@ -57,12 +57,10 @@ export default function Projects() {
     null
   );
   const [experienceIndex, setExperienceIndex] = useState<number | null>(null);
-    const [isExpIndexLoading, setIsExpIndexLoading] = useState(true);
+  const [isExpIndexLoading, setIsExpIndexLoading] = useState(true);
   const [experiencePoints, setExperiencePoints] = useState<any>(null);
 
   const displayedIndex = experiencePoints?.total ?? 0;
-
-  
 
   // stored projects (example)
   const [projects, setProjects] = useState<ProjectEntry[]>([
@@ -104,7 +102,6 @@ export default function Projects() {
     }
   };
 
-
   // -------------------- GET EXPERIENCE INDEX --------------------
   const fetchExperienceIndex = React.useCallback(async () => {
     if (!userId) return;
@@ -127,11 +124,10 @@ export default function Projects() {
   }, [userId]);
 
   //USE EFFECT
-useEffect(() => {
-  fetchProjects();
-  fetchExperienceIndex();
-}, []);
-
+  useEffect(() => {
+    fetchProjects();
+    fetchExperienceIndex();
+  }, []);
 
   // SC2 small textfield classes
   const scTextFieldClass =
@@ -190,54 +186,51 @@ useEffect(() => {
   };
 
   // -------------------- DELETE PROJECT --------------------
-const handleRemove = async (id: string) => {
-  // demo item → local delete only
-  if (id === "example-1") {
-    setProjects((prev) => prev.filter((p) => p.id !== id));
-    return;
-  }
-
-  if (!userId) {
-    alert("Session expired. Please login again.");
-    navigate("/login");
-    return;
-  }
-
-  const confirmDelete = window.confirm(
-    "Are you sure you want to delete this project?"
-  );
-  if (!confirmDelete) return;
-
-  try {
-    setIsSubmitting(true);
-
-    await API(
-      "DELETE",
-      `${URL_PATH.deleteProject}/${id}`, 
-      undefined,
-      undefined,
-      { "user-id": userId }
-    );
-
-    // update UI
-    setProjects((prev) => prev.filter((p) => p.id !== id));
-
-    // clear selected project if deleted
-    if (selectedProject?.id === id) {
-      setSelectedProject(null);
+  const handleRemove = async (id: string) => {
+    // demo item → local delete only
+    if (id === "example-1") {
+      setProjects((prev) => prev.filter((p) => p.id !== id));
+      return;
     }
 
-    // refresh Experience Index
-    await fetchExperienceIndex();
-  } catch (err: any) {
-    alert(
-      err?.response?.data?.message || "Failed to delete project"
-    );
-  } finally {
-    setIsSubmitting(false);
-  }
-};
+    if (!userId) {
+      alert("Session expired. Please login again.");
+      navigate("/login");
+      return;
+    }
 
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete this project?"
+    );
+    if (!confirmDelete) return;
+
+    try {
+      setIsSubmitting(true);
+
+      await API(
+        "DELETE",
+        `${URL_PATH.deleteProject}/${id}`,
+        undefined,
+        undefined,
+        { "user-id": userId }
+      );
+
+      // update UI
+      setProjects((prev) => prev.filter((p) => p.id !== id));
+
+      // clear selected project if deleted
+      if (selectedProject?.id === id) {
+        setSelectedProject(null);
+      }
+
+      // refresh Experience Index
+      await fetchExperienceIndex();
+    } catch (err: any) {
+      alert(err?.response?.data?.message || "Failed to delete project");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   //PAYLOAD
   const buildProjectsPayload = (list: ProjectEntry[]) => {
@@ -281,7 +274,7 @@ const handleRemove = async (id: string) => {
         "user-id": userId,
       });
 
-      navigate("/next-page");
+      navigate("/skill-index-intro");
     } catch (err: any) {
       alert(err.message || "Failed to save projects");
     } finally {
@@ -301,7 +294,7 @@ const handleRemove = async (id: string) => {
               icon={<FeatherArrowLeft />}
               onClick={() => navigate(-1)}
             />
-          <div className="flex-1 max-w-[420px]">
+            <div className="flex-1 max-w-[420px]">
               <div className="flex items-center gap-3">
                 {[...Array(6)].map((_, i) => (
                   <div

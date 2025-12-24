@@ -261,49 +261,45 @@ export default function Certifications() {
     resetForm();
   };
 
- // -------------------- DELETE CERTIFICATION --------------------
-const handleRemove = async (id: string) => {
-  if (!userId) {
-    notify("Session expired. Please login again.");
-    navigate("/login");
-    return;
-  }
+  // -------------------- DELETE CERTIFICATION --------------------
+  const handleRemove = async (id: string) => {
+    if (!userId) {
+      notify("Session expired. Please login again.");
+      navigate("/login");
+      return;
+    }
 
-  // demo item → local delete only
-  if (id === "example-1") {
-    setCerts((prev) => prev.filter((c) => c.id !== id));
-    return;
-  }
+    // demo item → local delete only
+    if (id === "example-1") {
+      setCerts((prev) => prev.filter((c) => c.id !== id));
+      return;
+    }
 
-  const confirmDelete = window.confirm(
-    "Are you sure you want to delete this certification?"
-  );
-  if (!confirmDelete) return;
-
-  try {
-    setIsSubmitting(true);
-
-    await API(
-      "DELETE",
-      `${URL_PATH.deleteCertification}/${id}`, 
-      undefined,
-      undefined,
-      { "user-id": userId }
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete this certification?"
     );
+    if (!confirmDelete) return;
 
-    
-    setCerts((prev) => prev.filter((c) => c.id !== id));
+    try {
+      setIsSubmitting(true);
 
-   await fetchExperienceIndex();
-  } catch (err: any) {
-    notify(
-      err?.response?.data?.message || "Failed to delete certification"
-    );
-  } finally {
-    setIsSubmitting(false);
-  }
-};
+      await API(
+        "DELETE",
+        `${URL_PATH.deleteCertification}/${id}`,
+        undefined,
+        undefined,
+        { "user-id": userId }
+      );
 
+      setCerts((prev) => prev.filter((c) => c.id !== id));
+
+      await fetchExperienceIndex();
+    } catch (err: any) {
+      notify(err?.response?.data?.message || "Failed to delete certification");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   // File handling (.pdf only, <= 5MB)
   const handleBrowseFile = () => fileInputRef.current?.click();
@@ -421,10 +417,10 @@ const handleRemove = async (id: string) => {
   };
 
   return (
-    <div className="min-h-screen flex justify-center bg-gradient-to-br from-purple-50 via-white to-neutral-50 px-6 py-20">
-      <div className="w-full max-w-[800px] flex gap-8">
+    <div className="min-h-screen flex justify-center bg-gradient-to-br from-purple-50 via-white to-neutral-50 px-4 sm:px-6 py-20 sm:py-32">
+      <div className="w-full max-w-[1000px] flex flex-col md:flex-row gap-6 md:gap-8">
         {/* Left card */}
-        <main className="w-full max-w-[448px] flex flex-col gap-6 rounded-3xl border border-solid border-neutral-border bg-white px-8 py-8 shadow-[0_10px_30px_rgba(40,0,60,0.06)]">
+        <main className="w-full md:max-w-[448px] flex flex-col gap-6 rounded-3xl border px-4 sm:px-6 md:px-8 py-6 sm:py-8">
           {/* top - back + progress */}
           <div className="flex w-full items-center justify-center gap-4">
             <IconButton
@@ -432,7 +428,7 @@ const handleRemove = async (id: string) => {
               icon={<FeatherArrowLeft />}
               onClick={() => navigate(-1)}
             />
-            <div className="flex-1 max-w-[420px]">
+            <div className="flex-1 w-full max-w-full md:max-w-[420px]">
               <div className="flex items-center gap-3">
                 {[...Array(4)].map((_, i) => (
                   <div
@@ -639,7 +635,7 @@ const handleRemove = async (id: string) => {
 
               {/* file preview */}
               {file && (
-                <div className="mt-4 rounded-2xl border border-neutral-200 bg-gray-50 px-4 py-3 flex items-center justify-between">
+                <div className="mt-4 rounded-2xl border border-neutral-200 bg-gray-50 px-4 py-3 flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:justify-between">
                   <div className="flex items-center gap-3">
                     <IconWithBackground
                       size="medium"
@@ -667,7 +663,7 @@ const handleRemove = async (id: string) => {
               )}
             </div>
 
-            <div className="flex w-full gap-3 mt-2">
+            <div className="flex flex-col sm:flex-row w-full gap-3 mt-2">
               <Button
                 type="button"
                 variant="neutral-secondary"
@@ -702,8 +698,8 @@ const handleRemove = async (id: string) => {
         </main>
 
         {/* Right panel */}
-        <aside className="w-72 shrink-0">
-          <div className="sticky top-6 bg-white rounded-[20px] px-6 py-6 shadow-[0_10px_30px_rgba(40,0,60,0.04)] border border-neutral-200">
+        <aside className="w-full md:w-72 shrink-0 mt-6 md:mt-0">
+          <div className="md:sticky md:top-6 bg-white rounded-[20px] px-6 py-6 shadow-[0_10px_30px_rgba(40,0,60,0.04)] border border-neutral-200">
             <h3 className="text-xl font-semibold text-neutral-900">
               Your Experience Index
             </h3>
@@ -711,7 +707,7 @@ const handleRemove = async (id: string) => {
             <div className="flex items-center justify-center py-6">
               <span
                 aria-live="polite"
-                className="font-['Afacad_Flux'] text-[48px] font-[500] leading-[56px] text-neutral-300"
+                className="font-['Afacad_Flux'] text-[32px] sm:text-[40px] md:text-[48px] ..."
               >
                 {displayedIndex ?? 0}
               </span>

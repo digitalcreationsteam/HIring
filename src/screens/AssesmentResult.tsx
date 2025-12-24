@@ -15,8 +15,11 @@ import { FeatherMapPin } from "@subframe/core";
 import { FeatherShield } from "@subframe/core";
 import { FeatherTarget } from "@subframe/core";
 import { FeatherUsers } from "@subframe/core";
+import { FeatherArrowLeft } from "@subframe/core";
+import { useNavigate } from "react-router-dom";
 
 function AssessmentResult() {
+  const navigate = useNavigate();
   return (
     <div className="w-full bg-neutral-50 py-12">
       <div className="mx-auto flex w-full max-w-[1024px] flex-col gap-8 px-4">
@@ -294,7 +297,7 @@ function AssessmentResult() {
             className="w-full max-w-[180px] h-10 rounded-2xl bg-violet-600 hover:bg-violet-800 text-white font-semibold"
             size="large"
             iconRight={<FeatherArrowRight />}
-            onClick={(event: React.MouseEvent<HTMLButtonElement>) => {}}
+            onClick={() => navigate("/dashboard")}
           >
             Go to Dashboard
           </Button>

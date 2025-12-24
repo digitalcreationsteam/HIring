@@ -31,8 +31,42 @@ import { FeatherUniversity } from "@subframe/core";
 import { FeatherUser2 } from "@subframe/core";
 import { FeatherUsers } from "@subframe/core";
 import { FeatherZap } from "@subframe/core";
+import API, { URL_PATH } from "src/common/API";
+import { useNavigate } from "react-router-dom";
+
+type DashboardResponse = {
+  user: {
+    name: string;
+    role: string;
+    location: string;
+    avatar: string;
+    verified: boolean;
+  };
+  rank: {
+    global: number;
+    university: number;
+    city: number;
+    percentile: string;
+  };
+  hireability: {
+    score: number;
+    skillIndex: number;
+    experienceIndex: number;
+    weeklyChange: number;
+  };
+  activity: {
+    caseStudies: { done: number; total: number };
+    hackathons: { done: number; total: number };
+    interviewPrep: { done: number; total: number };
+  };
+};
 
 function Dashboard() {
+  const navigate = useNavigate();
+  const handleNavigate = (path: string) => {
+    navigate(path);
+  };
+
   type BadgeVariant = "brand" | "neutral" | "warning" | "error" | "success";
   type RankTheme = {
     border: string;
@@ -55,10 +89,10 @@ function Dashboard() {
   return (
     <DefaultPageLayout>
       <div className="min-h-screen w-full bg-yellow-50 overflow-y-auto px-[env(safe-area-inset-left)] pr-[env(safe-area-inset-right)]">
-        <div className="mx-auto flex w-full max-w-[1440px] px-6 lg:px-8">
-          <div className="flex w-full items-start gap-8 py-6">
+        <div className="flex w-full px-[10em] justify-center px-4 sm:px-6 lg:px-8 xl:px-12">
+          <div className="flex flex-col gap-8 py-6 lg:flex-row">
             {/* LEFT */}
-            <div className="flex w-full flex-col gap-6 lg:w-[340px] lg:flex-none">
+            <div className="flex w-full flex-col gap-6 lg:w-[320px] xl:w-[340px] lg:flex-none">
               <div className="flex w-full flex-col items-center gap-3 rounded-3xl bg-white px-6 py-6 border border-neutral-200/70 shadow-[0_4px_20px_rgba(0,0,0,0.06)]">
                 <div className="flex w-full flex-col items-center gap-3">
                   <Avatar
@@ -382,30 +416,32 @@ function Dashboard() {
             </div>
 
             {/* CENTER */}
-            <div className="flex grow shrink-0 basis-0 flex-col items-start gap-6">
-              <div className="flex grow shrink-0 basis-0 items-center justify-end gap-6">
-                <div className="flex items-start justify-between self-stretch">
-                  <div className="flex flex-col items-start gap-1">
-                    <div className="flex items-center gap-3">
-                      <span className="text-[36px] font-semibold leading-[40px] text-gray-900">
-                        Welcome back, Preetam 👋
-                      </span>
-                    </div>
-                    <span className="text-[14px] text-neutral-600">
-                      Track progress, discover opportunities, and level up your
-                      Hireability score.
+            <div className="flex w-full flex-col items-start gap-6 lg:w-[800px] lg:flex-none">
+              <div className="flex items-start gap-6">
+                <div className="flex flex-col items-start gap-1">
+                  <div className="flex items-center gap-3">
+                    <span className="text-[24px] sm:text-[28px] lg:text-[36px] font-semibold leading-tight text-gray-900">
+                      Welcome back, Preetam 👋
                     </span>
                   </div>
+
+                  <span className="text-[14px] text-neutral-600">
+                    Track progress, discover opportunities, and level up your
+                    Hireability score.
+                  </span>
                 </div>
               </div>
+
               <div className="flex w-full flex-col items-start gap-4">
                 <div className="flex w-full items-center justify-between">
                   <span className="text-heading-2 font-heading-2 text-default-font">
                     Your Rankings
                   </span>
                 </div>
-                <div className="flex w-full items-start gap-4">
-                  <div className="flex min-w-[200px] grow flex-col items-center gap-3 rounded-3xl border border-violet-200 bg-gradient-to-b from-[#F4F2FF] to-white px-6 py-8 shadow-md">
+
+                <div className="grid w-full grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+                  {/* Global */}
+                  <div className="flex w-full min-h-[280px] flex-col items-center gap-3 rounded-3xl border border-violet-200 bg-gradient-to-b from-[#F4F2FF] to-white px-6 py-8 shadow-md">
                     <div
                       className={`h-14 w-14 flex items-center justify-center rounded-full ${GLOBAL_THEME.iconBg}`}
                     >
@@ -416,6 +452,7 @@ function Dashboard() {
                     <span className={`text-[32px] ${GLOBAL_THEME.valueColor}`}>
                       383,635
                     </span>
+
                     <Badge
                       className="flex items-center gap-1 bg-violet-100 text-violet-600 text-xs font-medium px-3 py-1 rounded-full"
                       variant={GLOBAL_THEME.badge}
@@ -428,7 +465,8 @@ function Dashboard() {
                     </span>
                   </div>
 
-                  <div className="flex min-w-[200px] grow flex-col items-center gap-3 rounded-3xl border border-neutral-200 bg-white px-6 py-8 shadow-md">
+                  {/* California */}
+                  <div className="flex w-full min-h-[280px] flex-col items-center gap-3 rounded-3xl border border-neutral-200 bg-white px-6 py-8 shadow-md">
                     <div className="h-14 w-14 flex items-center justify-center rounded-full bg-neutral-100">
                       <FeatherMap className="text-neutral-500" />
                     </div>
@@ -436,13 +474,12 @@ function Dashboard() {
                     <span className="text-[12px] text-neutral-600">
                       California
                     </span>
-
                     <span className="text-[28px] font-semibold text-gray-900">
                       2,456
                     </span>
 
                     <Badge
-                      className="flex items-center gap-1 bg-gray-100 gray-700 text-xs font-medium px-3 border-none py-1 rounded-full"
+                      className="flex items-center gap-1 bg-gray-100 text-gray-700 text-xs font-medium px-3 border-none py-1 rounded-full"
                       variant="neutral"
                     >
                       Top 12%
@@ -453,7 +490,8 @@ function Dashboard() {
                     </span>
                   </div>
 
-                  <div className="flex min-w-[200px] grow flex-col items-center gap-3 rounded-3xl border border-neutral-200 bg-white px-6 py-8 shadow-md">
+                  {/* San Francisco */}
+                  <div className="flex w-full min-h-[280px] flex-col items-center gap-3 rounded-3xl border border-neutral-200 bg-white px-6 py-8 shadow-md">
                     <div className="h-14 w-14 flex items-center justify-center rounded-full bg-neutral-100">
                       <FeatherMapPin className="text-neutral-500" />
                     </div>
@@ -461,7 +499,6 @@ function Dashboard() {
                     <span className="text-[12px] text-neutral-600">
                       San Francisco
                     </span>
-
                     <span className="text-[28px] font-semibold text-gray-900">
                       234
                     </span>
@@ -478,7 +515,8 @@ function Dashboard() {
                     </span>
                   </div>
 
-                  <div className="flex min-w-[200px] grow flex-col items-center gap-3 rounded-3xl border border-yellow-200 bg-gradient-to-b from-yellow-50 to-white px-6 py-8 shadow-md">
+                  {/* Stanford */}
+                  <div className="flex w-full min-h-[280px] flex-col items-center gap-3 rounded-3xl border border-yellow-200 bg-gradient-to-b from-yellow-50 to-white px-6 py-8 shadow-md">
                     <div className="h-14 w-14 flex items-center justify-center rounded-full bg-yellow-100">
                       <FeatherUniversity className="text-yellow-600" />
                     </div>
@@ -486,7 +524,6 @@ function Dashboard() {
                     <span className="text-[12px] text-neutral-600">
                       Stanford
                     </span>
-
                     <span className="text-[28px] font-semibold text-yellow-600">
                       23
                     </span>
@@ -521,7 +558,7 @@ function Dashboard() {
                 </div>
 
                 {/* Content */}
-                <div className="mt-6 flex items-center gap-10">
+                <div className="mt-6 flex flex-col gap-8 md:flex-row md:items-center">
                   {/* Circular Score */}
                   <div className="flex flex-col items-center gap-3">
                     <div
@@ -586,7 +623,6 @@ function Dashboard() {
                   </div>
                 </div>
               </div>
-
               <div className="flex w-full flex-col items-start gap-4">
                 <div className="flex w-full flex-col items-start gap-3">
                   <div className="flex w-full items-center justify-between">
@@ -627,7 +663,7 @@ function Dashboard() {
                   </div>
                 </div>
 
-                <div className="flex w-full items-start gap-4">
+                <div className="grid w-full grid-cols-1 gap-4 md:grid-cols-2">
                   <div className="flex grow shrink-0 basis-0 flex-col items-start gap-4 rounded-2xl border-2 border-solid border-violet-300 bg-white px-6 py-6 shadow-lg">
                     <div className="flex w-full items-start justify-between">
                       {/* ICON — SC2 EXACT */}
@@ -680,7 +716,7 @@ function Dashboard() {
                         </span>
                       </div>
                       <Button
-                        className="h-10 w-auto flex-none rounded-3xl bg-violet-700 hover:bg-violet-800 "
+                        className="h-10 w-full sm:w-auto flex-none rounded-3xl bg-violet-700 hover:bg-violet-800"
                         variant="brand-primary"
                         icon={<FeatherArrowRight />}
                         onClick={(
@@ -722,7 +758,7 @@ function Dashboard() {
                         </span>
                       </div>
                       <Button
-                        className="h-10 w-auto flex-none rounded-3xl bg-neutral-200 text-neutral-500 cursor-not-allowed"
+                        className="h-10 w-full sm:w-auto flex-none rounded-3xl bg-neutral-200 text-neutral-500 cursor-not-allowed"
                         disabled={true}
                         variant="neutral-tertiary"
                         onClick={(
@@ -734,7 +770,7 @@ function Dashboard() {
                     </div>
                   </div>
                 </div>
-                <div className="flex w-full items-start gap-4">
+                <div className="grid w-full grid-cols-1 gap-4 md:grid-cols-2">
                   <div className="flex grow shrink-0 basis-0 flex-col items-start gap-4 rounded-2xl border-2 border-solid border-green-300 bg-white px-6 py-6 shadow-lg">
                     <div className="flex w-full items-start justify-between">
                       <div className="flex h-14 w-14 flex-none items-center justify-center rounded-full bg-green-100">
@@ -766,7 +802,7 @@ function Dashboard() {
                         </span>
                       </div>
                       <Button
-                        className="h-10 w-auto flex-none rounded-3xl bg-violet-700 hover:bg-violet-800 "
+                        className="h-10 w-full sm:w-auto flex-none rounded-3xl bg-violet-700 hover:bg-violet-800"
                         variant="brand-primary"
                         icon={<FeatherArrowRight />}
                         onClick={(
@@ -808,7 +844,7 @@ function Dashboard() {
                         </span>
                       </div>
                       <Button
-                        className="h-10 w-auto flex-none rounded-3xl bg-neutral-200 text-neutral-500 cursor-not-allowed"
+                        className="h-10 w-full sm:w-auto flex-none rounded-3xl bg-neutral-200 text-neutral-500 cursor-not-allowed"
                         disabled={true}
                         variant="neutral-tertiary"
                         onClick={(
@@ -826,7 +862,7 @@ function Dashboard() {
             </div>
 
             {/* RIGHT */}
-            <div className="flex w-full flex-wrap items-start gap-6 lg:w-[380px] lg:flex-none">
+            <div className="flex w-full flex-col gap-6 lg:w-[320px] xl:w-[360px] lg:flex-none">
               {/* Top Product Managers */}
               <div className="w-full rounded-3xl border border-neutral-200 bg-white px-6 py-6 shadow-[0_4px_20px_rgba(0,0,0,0.06)]">
                 <span className="text-heading-3 font-heading-3 text-default-font">
@@ -1016,7 +1052,7 @@ function Dashboard() {
                     <div className="flex w-full flex-col items-start gap-3">
                       <span className="text-caption font-caption text-gray-600">
                         Got new updates? Add them over here!
-                      </span>   
+                      </span>
                       <div className="flex w-full items-center justify-between">
                         <div className="flex items-center gap-2">
                           <div className="flex h-8 w-8 flex-none items-center justify-center rounded-full bg-violet-100">
@@ -1031,12 +1067,10 @@ function Dashboard() {
                         Showcase your impactful projects and product outcomes
                       </span>
                       <Button
-                        className="h-10 w-full rounded-3xl fle[14px] bg-violet-600"
+                        className="h-10 w-full rounded-3xl bg-violet-600"
                         variant="brand-primary"
                         icon={<FeatherPlus />}
-                        onClick={(
-                          event: React.MouseEvent<HTMLButtonElement>
-                        ) => {}}
+                        onClick={() => handleNavigate("/experience")}
                       >
                         Add Experience
                       </Button>
@@ -1057,12 +1091,10 @@ function Dashboard() {
                         Showcase your impactful projects and product outcomes
                       </span>
                       <Button
-                        className="h-10 w-full rounded-3xl flex-none bg-violet-600"
+                        className="h-10 w-full rounded-3xl bg-violet-600"
                         variant="brand-primary"
                         icon={<FeatherPlus />}
-                        onClick={(
-                          event: React.MouseEvent<HTMLButtonElement>
-                        ) => {}}
+                        onClick={() => handleNavigate("/projects")}
                       >
                         Add Project
                       </Button>
@@ -1083,12 +1115,10 @@ function Dashboard() {
                         Update your educational background and achievements
                       </span>
                       <Button
-                        className="h-10 w-full rounded-3xl flex-none bg-violet-600"
+                        className="h-10 w-full rounded-3xl bg-violet-600"
                         variant="brand-primary"
                         icon={<FeatherPlus />}
-                        onClick={(
-                          event: React.MouseEvent<HTMLButtonElement>
-                        ) => {}}
+                        onClick={() => handleNavigate("/education")}
                       >
                         Add Education
                       </Button>
@@ -1109,12 +1139,10 @@ function Dashboard() {
                         Add relevant certifications to validate your expertise
                       </span>
                       <Button
-                        className="h-10 w-full rounded-3xl flex-none bg-violet-600"
+                        className="h-10 w-full rounded-3xl bg-violet-600"
                         variant="brand-primary"
                         icon={<FeatherPlus />}
-                        onClick={(
-                          event: React.MouseEvent<HTMLButtonElement>
-                        ) => {}}
+                        onClick={() => handleNavigate("/certifications")}
                       >
                         Add Certification
                       </Button>
@@ -1135,12 +1163,10 @@ function Dashboard() {
                         List your product management and technical skills
                       </span>
                       <Button
-                        className="h-10 w-full rounded-3xl flex-none bg-violet-600"
+                        className="h-10 w-full rounded-3xl bg-violet-600"
                         variant="brand-primary"
                         icon={<FeatherPlus />}
-                        onClick={(
-                          event: React.MouseEvent<HTMLButtonElement>
-                        ) => {}}
+                        onClick={() => handleNavigate("/skills")}
                       >
                         Add Skills
                       </Button>

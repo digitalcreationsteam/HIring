@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Badge } from "../ui/components/Badge";
 import { Button } from "../ui/components/Button";
@@ -9,6 +9,10 @@ import { FeatherCheck, FeatherStar } from "@subframe/core";
 
 function Paywall() {
   const navigate = useNavigate();
+  const [selectedPlan, setSelectedPlan] = useState<"basic" | "premium" | null>(
+    null
+  );
+
   return (
     <div className="min-h-screen w-full flex flex-col items-center justify-center bg-neutral-50 px-4">
       <div className="w-full max-w-[800px] flex flex-col items-center gap-10">
@@ -23,7 +27,16 @@ function Paywall() {
         {/* ✅ Cards Wrapper */}
         <div className="w-full flex flex-wrap justify-center gap-8">
           {/* ✅ BASIC CARD */}
-          <div className="w-full max-w-[380px] bg-white border border-gray-200 rounded-3xl p-6 flex flex-col gap-6 shadow-sm">
+          <div
+            onClick={() => setSelectedPlan("basic")}
+            className={`cursor-pointer w-full max-w-[380px] rounded-3xl p-6 flex flex-col gap-6 shadow-sm border transition
+    ${
+      selectedPlan === "basic"
+        ? "border-violet-600 ring-2 ring-violet-200"
+        : "border-gray-200"
+    }
+  `}
+          >
             <div>
               <h2 className="text-2xl text-gray-900">Basic Plan</h2>
               <p className="text-sm text-gray-500 mt-1">
@@ -52,7 +65,16 @@ function Paywall() {
           </div>
 
           {/* ✅ PREMIUM CARD (HIGHLIGHTED) */}
-          <div className="w-full max-w-[380px] bg-white border-2 border-violet-600 rounded-3xl p-6 flex flex-col gap-6 shadow-md">
+          <div
+            onClick={() => setSelectedPlan("premium")}
+            className={`cursor-pointer w-full max-w-[380px] rounded-3xl p-6 flex flex-col gap-6 shadow-md border-2 transition
+    ${
+      selectedPlan === "premium"
+        ? "border-violet-600 ring-2 ring-violet-300"
+        : "border-gray-200"
+    }
+  `}
+          >
             {/* ✅ Title + Popular Badge */}
             <div>
               <div className="flex items-center gap-2">
@@ -91,9 +113,20 @@ function Paywall() {
 
         {/* ✅ CONTINUE BUTTON */}
         <Button
-          className="w-full max-w-[760px] h-10 rounded-full bg-violet-600 hover:bg-violet-700 text-white font-semibold"
+          disabled={!selectedPlan}
+          className={`w-full max-w-[760px] h-10 rounded-full font-semibold transition
+    ${
+      selectedPlan
+        ? "bg-violet-600 hover:bg-violet-700 text-white"
+        : "bg-gray-300 text-gray-500 cursor-not-allowed"
+    }
+  `}
           size="large"
-          onClick={() => navigate("/job-domain")}
+          onClick={() =>
+            navigate("/job-domain", {
+              state: { plan: selectedPlan },
+            })
+          }
         >
           Continue
         </Button>

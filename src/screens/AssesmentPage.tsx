@@ -9,6 +9,7 @@ import { FeatherArrowRight } from "@subframe/core";
 import { FeatherClock } from "@subframe/core";
 import { FeatherSidebar } from "@subframe/core";
 import { FeatherX } from "@subframe/core";
+import { useNavigate } from "react-router-dom";
 
 type OptionKey = "A" | "B" | "C" | "D";
 
@@ -27,6 +28,7 @@ function pad2(n: number) {
 }
 
 function AssessmentPage() {
+  const navigate = useNavigate();
   // --- QUESTIONS (kept same content as your UI) ---
   const questions: Question[] = useMemo(
     () => [
@@ -162,12 +164,11 @@ function AssessmentPage() {
   };
 
   const handleSubmit = () => {
-    // Replace this with your real submit API call.
-    // For now we log and show a simple alert.
+    // TODO: replace with real submit API call
     console.log("Submitting answers:", answers);
-    alert(
-      `Submitting ${answeredCount} answered of ${questions.length}. Check console for detailed answers.`
-    );
+
+    // ✅ NEXT STEP → Assessment Results
+    navigate("/assessment-results");
   };
 
   // --- RENDER NAVIGATOR NUMBERS (keeps UI markup/style) ---

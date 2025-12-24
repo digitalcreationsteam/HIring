@@ -52,6 +52,11 @@ function EmailVerification() {
     }, 1000);
   };
 
+  useEffect(() => {
+  setCanResend(countdown <= 0);
+}, [countdown]);
+
+
   // start on mount
   useEffect(() => {
     startTimer(INITIAL);
@@ -64,33 +69,34 @@ function EmailVerification() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // ✅ Verify email token and redirect
   useEffect(() => {
-    setCanResend(countdown <= 0);
-  }, [countdown]);
+    const verifyEmail = async () => {
+      const token = searchParams.get("token");
+      if (!token) return;
+
+      try {
+        await API("POST", URL_PATH.verifyEmail, { token });
+
+        // ✅ SUCCESS → navigate to TalentRankingPlatform
+        navigate("/talent-ranking");
+      } catch (err) {
+        setStatusMessage("Email verification failed. Please try again.");
+      }
+    };
+
+    verifyEmail();
+  }, [navigate, searchParams]);
 
   const handleResend = async () => {
-    if (!canResend || isSending) return;
+  if (!canResend || isSending) return;
 
-    setIsSending(true);
-    setStatusMessage("");
+  setIsSending(true);
+  setStatusMessage("");
 
 
-    try {
-      // TODO: replace with your real resend API call
-      await new Promise((res) => setTimeout(res, 700));
+};
 
-      startTimer(INITIAL);
-      setStatusMessage("");
-    } catch (e) {
-      setStatusMessage("Failed to resend. Please try again.");
-    } finally {
-      setIsSending(false);
-    }
-  };
-
-  const handleBackToLogin = () => {
-    navigate("/login");
-  };
 
   return (
     <div className="flex min-h-screen w-full items-center justify-center bg-neutral-50 py-12 px-4">
@@ -102,9 +108,12 @@ function EmailVerification() {
         />
 
         <div className="flex flex-col items-center gap-1 text-center px-2">
-          <span className="text-lg font-semibold text-neutral-700">Check your email</span>
+          <span className="text-lg font-semibold text-neutral-700">
+            Check your email
+          </span>
           <span className="text-[14px] text-neutral-500">
-            We sent a verification link to your email address. Click the link to activate your recruiter account.
+            We sent a verification link to your email address. Click the link to
+            activate your recruiter account.
           </span>
         </div>
 
@@ -112,19 +121,28 @@ function EmailVerification() {
 
         <div className="flex w-full flex-col items-center gap-2 text-center px-2">
           <span className="text-[13px] text-neutral-400">
-            Didn't receive the email? Check your spam folder or request a new link.
+            Didn't receive the email? Check your spam folder or request a new
+            link.
           </span>
 
           <Button
             className={`h-10 w-full rounded-2xl transition-all duration-150
-              ${canResend ? "bg-violet-100 text-violet-700 shadow-sm" : "bg-violet-50 text-violet-600/70"}
+              ${
+                canResend
+                  ? "bg-violet-100 text-violet-700 shadow-sm"
+                  : "bg-violet-50 text-violet-600/70"
+              }
             `}
             variant="brand-secondary"
             size="small"
             onClick={handleResend}
             disabled={!canResend || isSending}
             aria-disabled={!canResend || isSending}
-            aria-label={isSending ? "Sending verification link" : "Resend verification link"}
+            aria-label={
+              isSending
+                ? "Sending verification link"
+                : "Resend verification link"
+            }
           >
             {isSending ? "Sending..." : "Resend verification link"}
           </Button>
@@ -132,7 +150,8 @@ function EmailVerification() {
           <div className="flex items-center gap-2 mt-2 text-xs text-neutral-500">
             <FeatherClock className="w-4 h-4" />
             <span>
-              You can request a new link in {countdown} second{countdown !== 1 ? "s" : ""}
+              You can request a new link in {countdown} second
+              {countdown !== 1 ? "s" : ""}
             </span>
           </div>
 
@@ -141,12 +160,14 @@ function EmailVerification() {
           </div>
 
           {statusMessage && (
-            <div className="text-xs text-neutral-600 mt-1" role="status" aria-live="polite">
+            <div
+              className="text-xs text-neutral-600 mt-1"
+              role="status"
+              aria-live="polite"
+            >
               {statusMessage}
             </div>
           )}
-
-         
         </div>
       </div>
     </div>

@@ -11,8 +11,10 @@ import {
   FeatherAlertTriangle,
   FeatherX,
 } from "@subframe/core";
+import { useNavigate } from "react-router-dom";
 
 export default function Skills() {
+  const navigate = useNavigate();
   const [input, setInput] = useState("");
   const [skills, setSkills] = useState<string[]>([
     "Product Strategy",
@@ -38,12 +40,11 @@ export default function Skills() {
   const inputRef = useRef<HTMLInputElement | null>(null);
 
   // use these values instead of prior scTextFieldClass / scInputClass
- const scTextFieldClass =
-  "w-full [&>label]:text-[10px] [&>label]:font-medium [&>div]:h-7 [&>div]:rounded-full [&>div]:bg-neutral-100 [&>div]:!border-none";
+  const scTextFieldClass =
+    "w-full [&>label]:text-[10px] [&>label]:font-medium [&>div]:h-7 [&>div]:rounded-full [&>div]:bg-neutral-100 [&>div]:!border-none";
 
   const scInputClass =
-  "rounded-full h-7 px-3 text-[13px] placeholder:text-[13px] bg-neutral-100 !border-none focus:ring-0 focus:outline-none w-full";
-
+    "rounded-full h-7 px-3 text-[13px] placeholder:text-[13px] bg-neutral-100 !border-none focus:ring-0 focus:outline-none w-full";
 
   const addSkill = (raw: string) => {
     const s = raw.trim();
@@ -64,15 +65,17 @@ export default function Skills() {
   const removeSkill = (s: string) => {
     setSkills((prev) => prev.filter((k) => k !== s));
   };
- const handleContinue = () => {
+
+  const handleContinue = () => {
     if (skills.length === 0) {
       alert("Add at least one skill to continue.");
       return;
     }
-    // Replace with real submit/navigation logic
-    console.log("Skills submitted:", skills);
-    alert("Continue clicked — check console for skills array.");
+
+    // ✅ NEXT STEP → Skill Assessment
+    navigate("/assessment-intro");
   };
+
   return (
     <div className="min-h-screen flex justify-center items-center bg-neutral-50 px-6 py-10">
       <main className="w-full max-w-[720px] bg-white rounded-3xl shadow-[0_10px_30px_rgba(40,0,60,0.06)] border border-neutral-200 px-10 py-8">
@@ -81,8 +84,9 @@ export default function Skills() {
           <IconButton
             size="small"
             icon={<FeatherArrowLeft />}
-            onClick={() => {}}
+            onClick={() => navigate(-1)}
           />
+
           <div className="flex-1">
             <div className="flex items-center gap-3">
               {[...Array(7)].map((_, i) => (
@@ -186,15 +190,15 @@ export default function Skills() {
         <div className="w-full h-px bg-neutral-200 my-8" />
 
         <footer>
-  <Button
-    className="w-full h-10 rounded-full bg-gradient-to-r from-violet-600 to-violet-600 
+          <Button
+            className="w-full h-10 rounded-full bg-gradient-to-r from-violet-600 to-violet-600 
                text-white shadow-[0_6px_18px_rgba(99,52,237,0.18)]"
-    onClick={handleContinue}
-    disabled={skills.length === 0}
-  >
-    Continue
-  </Button>
-</footer>
+            onClick={handleContinue}
+            disabled={skills.length === 0}
+          >
+            Continue
+          </Button>
+        </footer>
       </main>
     </div>
   );

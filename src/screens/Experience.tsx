@@ -401,10 +401,11 @@ const TEXT_REGEX = /^[A-Za-z0-9][A-Za-z0-9\s.&()+/-]{1,80}$/;
   }, [userId, fetchExperiences, fetchExperienceIndex]);
 
   return (
-    <div className="min-h-screen flex justify-center bg-gradient-to-br from-purple-50 via-white to-neutral-50 px-6 py-20">
-      <div className="w-full max-w-[800px] flex gap-8">
+    <div className="min-h-screen flex justify-center bg-gradient-to-br from-purple-50 via-white to-neutral-50 px-4 sm:px-6 py-20 sm:py-32">
+  <div className="w-full max-w-[1000px] flex flex-col md:flex-row gap-6 md:gap-8">
+
         {/* Left card */}
-        <main className="w-full max-w-[480px] bg-white rounded-3xl border px-8 py-6 shadow-[0_10px_30px_rgba(40,0,60,0.06)]">
+<main className="w-full md:max-w-[480px] bg-white rounded-3xl border px-4 sm:px-6 md:px-8 py-6 ...">
           {/* top row - back + progress */}
           <div className="flex items-center gap-4">
             <IconButton
@@ -412,7 +413,8 @@ const TEXT_REGEX = /^[A-Za-z0-9][A-Za-z0-9\s.&()+/-]{1,80}$/;
               icon={<FeatherArrowLeft />}
               onClick={() => navigate(-1)}
             />
-            <div className="flex-1 max-w-[420px]">
+            <div className="flex-1 w-full max-w-full md:max-w-[420px]">
+
               <div className="flex items-center gap-3">
                 {[...Array(3)].map((_, i) => (
                   <div
@@ -552,7 +554,8 @@ const TEXT_REGEX = /^[A-Za-z0-9][A-Za-z0-9\s.&()+/-]{1,80}$/;
               />
             </TextField>
 
-            <div className="flex gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+
               <TextField
                 label="Start Date *"
                 helpText=""
@@ -683,7 +686,8 @@ const TEXT_REGEX = /^[A-Za-z0-9][A-Za-z0-9\s.&()+/-]{1,80}$/;
               />
             </TextField>
 
-            <div className="mt-2 flex gap-3">
+            <div className="mt-2 flex flex-col sm:flex-row gap-3">
+
               <Button
                 type="button"
                 variant="neutral-secondary"
@@ -718,14 +722,16 @@ const TEXT_REGEX = /^[A-Za-z0-9][A-Za-z0-9\s.&()+/-]{1,80}$/;
 
         {/* Right panel - SC2 style with Experience active */}
         {/* Right panel */}
-        <aside className="w-72 shrink-0">
-          <div className="sticky top-6 bg-white rounded-[20px] px-6 py-6 shadow-[0_10px_30px_rgba(40,0,60,0.04)] border border-neutral-200">
+        <aside className="w-full md:w-72 shrink-0 mt-6 md:mt-0">
+
+          <div className="md:sticky md:top-6 bg-white rounded-[20px] px-6 py-6 shadow-[0_10px_30px_rgba(40,0,60,0.04)] border border-neutral-200">
             <h3 className="text-base font-semibold text-neutral-900">
               Your Experience Index
             </h3>
 
             <div className="flex items-center justify-center py-6">
-              <span className="font-['Afacad_Flux'] text-[48px] font-[500] leading-[56px] text-neutral-300">
+              <span className="font-['Afacad_Flux'] text-[32px] sm:text-[40px] md:text-[48px] ...">
+
                 {displayedIndex !== null ? displayedIndex : "0"}
               </span>
             </div>

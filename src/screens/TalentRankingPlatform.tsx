@@ -26,15 +26,25 @@ import { FeatherTarget } from "@subframe/core";
 import { FeatherTrophy } from "@subframe/core";
 import { FeatherTwitter } from "@subframe/core";
 import { FeatherUsers } from "@subframe/core";
+import { useNavigate } from "react-router-dom";
 
 function TalentRankingPlatform() {
+  const navigate = useNavigate();
   return (
-    <div className="container max-w-none flex h-full w-full flex-col items-center bg-neutral-50 shadow-lg overflow-auto">
-      <div className="flex w-full flex-col items-center px-6 py-32">
+    <div className="flex min-h-screen w-full flex-col items-center bg-neutral-50 overflow-x-hidden">
+      <div className="flex w-full flex-col items-center px-4 sm:px-6 py-16 sm:py-24 lg:py-32">
         <div className="flex w-full max-w-[768px] flex-col items-start gap-8">
           <div className="flex flex-col items-start gap-6">
-            <Badge className="text-[14px]" variant="neutral">Standardized Talent Infrastructure</Badge>
-            <span className="font-['Inter'] text-[56px] font-[600] leading-[60px] text-default-font -tracking-[0.04em]">
+            <Badge className="text-[14px]" variant="neutral">
+              Standardized Talent Infrastructure
+            </Badge>
+            <span
+              className="font-['Inter']
+  text-[28px] sm:text-[36px] lg:text-[56px]
+  font-[600]
+  leading-tight sm:leading-[44px] lg:leading-[60px]
+  text-default-font -tracking-[0.04em]"
+            >
               Welcome to UniTalent: A New Data-Driven Approach To Early-Career
               Hiring
             </span>
@@ -46,7 +56,7 @@ function TalentRankingPlatform() {
                     The Traditional Résumé Paradox
                   </span>
                   <span className="whitespace-pre-wrap font-['Inter'] text-[15px] leading-[20px] text-neutral-800">
-  {`High-performing students today often do everything the system asks of them. They maintain strong academic records, participate in competitive programs, build projects, gain practical experience through internships, and prepare rigorously for interviews. Years of consistent effort are invested with the reasonable expectation that this work will translate into opportunity.
+                    {`High-performing students today often do everything the system asks of them. They maintain strong academic records, participate in competitive programs, build projects, gain practical experience through internships, and prepare rigorously for interviews. Years of consistent effort are invested with the reasonable expectation that this work will translate into opportunity.
 
 In practice, that connection is increasingly weak.
 
@@ -65,8 +75,7 @@ No keyword-hunting.
 No inflated résumés.
 
 Just genuine, deserving, hardworking talent rising to the top — exactly where it should be.`}
-</span>
-
+                  </span>
                 </div>
               </div>
               <span className="font-['Inter'] text-[20px] font-[400] leading-[28px] text-gray-600 -tracking-[0.01em]">
@@ -130,7 +139,7 @@ Just genuine, deserving, hardworking talent rising to the top — exactly where 
           </div>
 
           {/* Cards */}
-          <div className="grid w-full grid-cols-4 gap-6 items-stretch">
+          <div className="grid w-full grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {/* Step 1 */}
             <div className="flex grow flex-col items-start gap-4 rounded-3xl border border-neutral-200 bg-white px-6 py-6 shadow-sm">
               <div className="flex h-10 w-10 items-center justify-center rounded-full bg-violet-100 text-violet-800 font-medium">
@@ -213,7 +222,7 @@ Just genuine, deserving, hardworking talent rising to the top — exactly where 
             </span>
           </div>
           <div className="flex w-full flex-col items-start gap-8">
-            <div className="flex w-full items-start gap-8">
+            <div className="flex w-full flex-col gap-6 md:flex-row md:items-start">
               <div className="flex w-16 rounded-xl flex-col items-center pt-2">
                 <IconWithBackground
                   className="text-violet-700 bg-violet-100 rounded-2xl text-[28px]"
@@ -222,7 +231,10 @@ Just genuine, deserving, hardworking talent rising to the top — exactly where 
                   square={true}
                 />
               </div>
-              <div className="flex grow shrink-0 basis-0 flex-col items-start gap-6 rounded-3xl border border-solid border-neutral-border bg-white px-10 py-10 shadow-lg">
+              <div
+                className="flex grow shrink-0 basis-0 flex-col items-start gap-6 rounded-3xl border border-solid border-neutral-border bg-white
+  px-4 py-6 sm:px-6 sm:py-8 lg:px-10 lg:py-10 shadow-lg"
+              >
                 <div className="flex flex-col items-start gap-3">
                   <span className="font-['Inter'] text-[30px] font-[600] leading-[36px] text-default-font -tracking-[0.02em]">
                     Experience Index
@@ -287,7 +299,7 @@ Just genuine, deserving, hardworking talent rising to the top — exactly where 
               </div>
             </div>
 
-            <div className="flex w-full items-start gap-8">
+            <div className="flex w-full flex-col gap-6 md:flex-row md:items-start">
               <div className="flex w-16 flex-none flex-col items-center pt-2">
                 <IconWithBackground
                   className="text-violet-700 bg-violet-100 rounded-2xl text-[28px]"
@@ -297,7 +309,10 @@ Just genuine, deserving, hardworking talent rising to the top — exactly where 
                   square={true}
                 />
               </div>
-              <div className="flex grow shrink-0 basis-0 flex-col items-start gap-6 rounded-3xl border border-solid border-neutral-border bg-white px-10 py-10 shadow-lg">
+              <div
+                className="flex grow shrink-0 basis-0 flex-col items-start gap-6 rounded-3xl border border-solid border-neutral-border bg-white
+  px-4 py-6 sm:px-6 sm:py-8 lg:px-10 lg:py-10 shadow-lg"
+              >
                 <div className="flex flex-col items-start gap-3">
                   <span className="font-['Inter'] text-[30px] font-[600] leading-[36px] text-default-font -tracking-[0.02em]">
                     Skill Index
@@ -349,7 +364,7 @@ Just genuine, deserving, hardworking talent rising to the top — exactly where 
                 <div className="flex h-px w-full flex-none flex-col items-center gap-2  bg-gray-200" />
               </div>
             </div>
-            <div className="flex w-full items-start gap-8">
+            <div className="flex w-full flex-col gap-6 md:flex-row md:items-start">
               <div className="flex w-16 flex-none flex-col items-center pt-2">
                 <IconWithBackground
                   className="text-violet-700 bg-violet-100 rounded-2xl text-[28px]"
@@ -359,7 +374,10 @@ Just genuine, deserving, hardworking talent rising to the top — exactly where 
                   square={true}
                 />
               </div>
-              <div className="flex grow shrink-0 basis-0 flex-col items-start gap-6 rounded-3xl border border-solid border-neutral-border bg-white px-10 py-10 shadow-lg">
+              <div
+                className="flex grow shrink-0 basis-0 flex-col items-start gap-6 rounded-3xl border border-solid border-neutral-border bg-white
+  px-4 py-6 sm:px-6 sm:py-8 lg:px-10 lg:py-10 shadow-lg"
+              >
                 <div className="flex flex-col items-start gap-3">
                   <span className="font-['Inter'] text-[30px] font-[600] leading-[36px] text-default-font -tracking-[0.02em]">
                     Hireability Index
@@ -662,17 +680,18 @@ Just genuine, deserving, hardworking talent rising to the top — exactly where 
           <Button
             className="w-full max-w-full h-10 rounded-3xl bg-violet-600 hover:bg-violet-700 text-white font-semibold"
             size="large"
-            onClick={(event: React.MouseEvent<HTMLButtonElement>) => {}}
+            onClick={() => navigate("/upload-resume")}
           >
             Finish Profile Setup
           </Button>
         </div>
       </div>
 
-      
       <div className="flex w-full flex-col items-center justify-center gap-6 border-t border-solid border-neutral-100 px-6 py-12">
-        <div className="flex w-full max-w-[1024px] flex-wrap items-start gap-6">
-          <div className="flex min-w-[320px] flex-col items-start gap-6 self-stretch">
+       <div className="grid w-full max-w-[1024px] grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+
+          <div className="flex w-full sm:w-auto flex-col items-start gap-6 self-stretch">
+
             <div className="flex w-full min-w-[320px] grow shrink-0 basis-0 items-start gap-4">
               <img
                 className="h-5 w-5 flex-none object-cover"

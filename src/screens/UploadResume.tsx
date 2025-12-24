@@ -107,10 +107,10 @@ function UploadResume() {
   };
 
   return (
-    <div className="flex min-h-screen w-full items-center justify-center bg-neutral-50 px-6 py-8">
-      <div className="w-full max-w-[576px] flex flex-col items-start gap-6 rounded-3xl border border-solid bg-white px-8 py-8 shadow-[0_12px_30px_rgba(15,15,15,0.06)]">
+    <div className="flex min-h-screen w-full items-center justify-center bg-neutral-50 px-4 sm:px-6 py-6 sm:py-8">
+      <div className="w-full max-w-[576px] flex flex-col items-start gap-6 rounded-3xl border bg-white px-4 sm:px-6 md:px-8 py-6 sm:py-8 shadow-[0_12px_30px_rgba(15,15,15,0.06)]">
         {/* Back + Progress Bar */}
-        <div className="flex w-full items-center gap-4">
+        <div className="flex w-full items-center gap-3 sm:gap-4">
           <IconButton
             size="small"
             icon={<FeatherArrowLeft />}
@@ -122,7 +122,7 @@ function UploadResume() {
           />
 
           <div className="flex grow items-center justify-center">
-            <div className="flex w-full max-w-[460px] items-center gap-2">
+            <div className="flex w-full max-w-full sm:max-w-[460px] items-center gap-1 sm:gap-2">
               {/* example progress UI */}
               <div className="h-1 flex-1 rounded-full bg-violet-500" />
               <div className="h-1 flex-1 rounded-full bg-violet-500" />
@@ -138,10 +138,10 @@ function UploadResume() {
 
         {/* Title */}
         <div className="flex w-full flex-col items-start gap-2">
-          <span className="text-lg font-medium text-neutral-900">
+          <span className="text-base sm:text-lg font-medium text-neutral-900">
             Upload your Resume
           </span>
-          <span className="text-sm text-neutral-500">
+          <span className="text-xs sm:text-sm text-neutral-500">
             Upload your most recent resume (PDF, DOC, or DOCX)
           </span>
         </div>
@@ -157,7 +157,7 @@ function UploadResume() {
             role="button"
             tabIndex={0}
             aria-label="Upload resume. Click or press Enter to browse files. Or drag and drop a file here. Press Escape to remove the selected file."
-            className="w-full flex flex-col items-center justify-center gap-3 rounded-2xl border-2 border-dashed border-neutral-300 bg-neutral-50 px-6 py-4 cursor-pointer"
+            className="w-full flex flex-col items-center justify-center gap-3 rounded-2xl border-2 border-dashed border-neutral-300 bg-neutral-50 px-4 sm:px-6 py-4 sm:py-6 cursor-pointer"
             onClick={handleBrowseFile}
             onDrop={handleDrop}
             onDragOver={handleDragOver}
@@ -191,7 +191,7 @@ function UploadResume() {
 
           {/* Uploaded File Preview */}
           {file && (
-            <div className="w-full flex items-center gap-4 rounded-2xl border border-neutral-border bg-neutral-50 px-4 py-3">
+            <div className="w-full flex items-center gap-3 sm:gap-4 rounded-2xl border border-neutral-border bg-neutral-50 px-3 sm:px-4 py-3">
               <IconWithBackground
                 variant="neutral"
                 size="medium"
@@ -200,7 +200,10 @@ function UploadResume() {
               />
 
               <div className="flex grow flex-col">
-                <span className="text-sm text-neutral-900">{file.name}</span>
+                <span className="text-sm text-neutral-900 truncate">
+                  {file.name}
+                </span>
+
                 <span className="text-xs text-neutral-500">
                   {(file.size / (1024 * 1024)).toFixed(1)} MB
                 </span>
@@ -217,9 +220,9 @@ function UploadResume() {
         </div>
 
         {/* Continue Button */}
-        <div className="flex w-full justify-end border-t border-neutral-border pt-4">
+        <div className="flex w-full justify-center sm:justify-end border-t border-neutral-border pt-4">
           <Button
-            className="h-9 w-full max-w-[520px] rounded-full bg-violet-600 font-semibold shadow-md"
+            className="h-10 w-full sm:w-auto sm:max-w-[520px] rounded-full bg-violet-600 font-semibold shadow-md"
             onClick={() => navigate("/demographics")}
             disabled={!file}
           >
